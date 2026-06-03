@@ -72,3 +72,7 @@ npm run dev   # http://localhost:3000
 ```bash
 npx prettier --write .
 ```
+
+## Lighthouse Performance Standard
+
+Target 95+ across all four Lighthouse categories (Performance, Accessibility, Best Practices, SEO). Keep this in mind during all design and build decisions.
