@@ -1,4 +1,7 @@
+'use client'
+
 import Image from 'next/image'
+import { motion, type Variants } from 'motion/react'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
 
 const features = [
@@ -8,30 +11,46 @@ const features = [
       'Every shift ends with a written report delivered to your building management team. You stay informed without having to ask.',
   },
   {
-    name: 'Dedicated Day Porter Option',
+    name: 'Tailored Cleaning Programs',
     description:
-      'Need coverage throughout the day? Our porter team keeps your space clean from open to close — not just overnight.',
+      'No two buildings are the same. We build your program around your space, schedule, and standard — then stick to it.',
   },
   {
-    name: 'Local & Trusted',
+    name: 'Consistent, Vetted Teams',
     description:
-      'Based in Union, NJ and serving the greater commercial market. A local company with the capacity of a national one.',
+      'The same crew returns to your building every time. Familiarity with your space means nothing gets missed.',
   },
   {
-    name: 'Fully Bonded & Insured',
+    name: 'Documented, Repeatable Process',
     description:
-      'Every team member is vetted before they step into your building. Every job is fully covered. No exceptions.',
+      'Every cleaning program is written down and followed. Not approximated — executed the same way, every time.',
   },
 ]
 
+const listContainer: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+}
+
+const listItem: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+}
+
 export default function WhyUs() {
   return (
-    <section id="about" className="relative bg-white pb-32 pt-20 lg:pb-40 lg:pt-28">
+    <section id="why-us" className="relative bg-white pb-32 pt-20 lg:pb-40 lg:pt-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
 
           {/* Image */}
-          <div className="relative h-80 overflow-hidden rounded-xl lg:h-[560px]">
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.55, ease: 'easeOut' }}
+            className="relative h-80 overflow-hidden rounded-xl lg:h-140"
+          >
             <Image
               src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=80"
               alt="Clean professional office interior"
@@ -39,10 +58,15 @@ export default function WhyUs() {
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
             />
-          </div>
+          </motion.div>
 
           {/* Content */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.55, ease: 'easeOut' }}
+          >
             <p className="text-xs font-semibold uppercase tracking-widest text-gold">
               Why Choose Us
             </p>
@@ -53,9 +77,15 @@ export default function WhyUs() {
               The consistency you can count on.
             </h2>
 
-            <ul className="mt-10 space-y-8">
+            <motion.ul
+              className="mt-10 space-y-8"
+              variants={listContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+            >
               {features.map((feature) => (
-                <li key={feature.name} className="flex gap-4">
+                <motion.li key={feature.name} variants={listItem} className="flex gap-4">
                   <CheckCircleIcon
                     aria-hidden="true"
                     className="mt-0.5 size-5 shrink-0 text-teal"
@@ -66,10 +96,10 @@ export default function WhyUs() {
                       {feature.description}
                     </p>
                   </div>
-                </li>
+                </motion.li>
               ))}
-            </ul>
-          </div>
+            </motion.ul>
+          </motion.div>
 
         </div>
       </div>

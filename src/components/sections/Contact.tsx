@@ -1,0 +1,226 @@
+'use client'
+
+import { useState, FormEvent } from 'react'
+import { motion } from 'motion/react'
+import { CheckCircleIcon } from '@heroicons/react/24/solid'
+
+const trustPoints = [
+  'Response within 1 business day',
+  'No long-term contracts required',
+  'Tailored programs for any facility type',
+]
+
+type Status = 'idle' | 'submitting' | 'success' | 'error'
+
+export default function Contact() {
+  const [status, setStatus] = useState<Status>('idle')
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setStatus('submitting')
+
+    const form = e.currentTarget
+    const data = new FormData(form)
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: data,
+      })
+      const json = await res.json()
+      if (json.success) {
+        setStatus('success')
+        form.reset()
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  return (
+    <section id="contact" className="relative bg-cream pb-32 pt-20 lg:pb-40 lg:pt-28">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
+
+          {/* Left — info */}
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.55, ease: 'easeOut' }}
+          >
+            <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+              Get in Touch
+            </p>
+            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
+              Let&rsquo;s talk about your space.
+            </h2>
+            <p className="mt-6 text-base leading-7 text-neutral-mid">
+              Tell us about your building and what you need. We&rsquo;ll follow up within one
+              business day with a tailored proposal.
+            </p>
+
+            <ul className="mt-10 space-y-4">
+              {trustPoints.map((point) => (
+                <li key={point} className="flex items-center gap-3">
+                  <CheckCircleIcon className="size-5 shrink-0 text-teal" aria-hidden="true" />
+                  <span className="text-sm font-medium text-teal-dark">{point}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-12 space-y-3 text-sm text-neutral-mid">
+              <p>
+                <span className="font-semibold text-teal-dark">Email:</span>{' '}
+                info@sweeppropertyplus.com
+              </p>
+              <p>
+                <span className="font-semibold text-teal-dark">Phone:</span> (908) 555-0100
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Right — form */}
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.55, ease: 'easeOut' }}
+          >
+            {status === 'success' ? (
+              <div className="flex h-full flex-col items-start justify-center rounded-xl bg-white p-10 shadow-sm">
+                <CheckCircleIcon className="mb-4 size-12 text-teal" aria-hidden="true" />
+                <h3 className="text-xl font-semibold text-teal-dark">Request received.</h3>
+                <p className="mt-3 text-base leading-7 text-neutral-mid">
+                  Thank you for reaching out. We&rsquo;ll be in touch within one business day with
+                  a proposal for your space.
+                </p>
+                <button
+                  onClick={() => setStatus('idle')}
+                  className="mt-8 text-sm font-semibold text-teal underline-offset-2 hover:underline"
+                >
+                  Send another request
+                </button>
+              </div>
+            ) : (
+              <form
+                onSubmit={handleSubmit}
+                className="rounded-xl bg-white p-8 shadow-sm lg:p-10"
+                noValidate
+              >
+                <input
+                  type="hidden"
+                  name="access_key"
+                  value={process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ?? ''}
+                />
+                <input type="hidden" name="subject" value="New Quote Request — Sweep Property Plus" />
+                <input type="checkbox" name="botcheck" className="hidden" />
+
+                <div className="space-y-5">
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="name" className="mb-1.5 block text-sm font-semibold text-teal-dark">
+                        Name <span className="text-gold">*</span>
+                      </label>
+                      <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        required
+                        placeholder="Your name"
+                        className="w-full rounded border border-teal/20 bg-white px-4 py-3 text-sm text-neutral-dark placeholder:text-neutral-mid transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="company" className="mb-1.5 block text-sm font-semibold text-teal-dark">
+                        Company
+                      </label>
+                      <input
+                        id="company"
+                        name="company"
+                        type="text"
+                        placeholder="Your company"
+                        className="w-full rounded border border-teal/20 bg-white px-4 py-3 text-sm text-neutral-dark placeholder:text-neutral-mid transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="mb-1.5 block text-sm font-semibold text-teal-dark">
+                      Email <span className="text-gold">*</span>
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      placeholder="you@company.com"
+                      className="w-full rounded border border-teal/20 bg-white px-4 py-3 text-sm text-neutral-dark placeholder:text-neutral-mid transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="phone" className="mb-1.5 block text-sm font-semibold text-teal-dark">
+                      Phone
+                    </label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      placeholder="(908) 555-0100"
+                      className="w-full rounded border border-teal/20 bg-white px-4 py-3 text-sm text-neutral-dark placeholder:text-neutral-mid transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="mb-1.5 block text-sm font-semibold text-teal-dark">
+                      Tell us about your space <span className="text-gold">*</span>
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      required
+                      rows={5}
+                      placeholder="Building type, square footage, services needed, preferred schedule..."
+                      className="w-full resize-none rounded border border-teal/20 bg-white px-4 py-3 text-sm text-neutral-dark placeholder:text-neutral-mid transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15"
+                    />
+                  </div>
+
+                  {status === 'error' && (
+                    <p className="text-sm font-medium text-red-600">
+                      Something went wrong. Please try again or email us directly.
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={status === 'submitting'}
+                    className="w-full rounded bg-gold py-3 text-sm font-semibold text-teal-dark shadow-sm transition-all duration-200 hover:brightness-110 active:brightness-95 disabled:opacity-60"
+                  >
+                    {status === 'submitting' ? 'Sending…' : 'Request a Free Quote'}
+                  </button>
+                </div>
+              </form>
+            )}
+          </motion.div>
+
+        </div>
+      </div>
+
+      {/* Diagonal → Footer (teal-dark) */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none" aria-hidden="true">
+        <svg
+          viewBox="0 0 1440 80"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+          className="block h-20 w-full fill-teal-dark"
+        >
+          <polygon points="0,80 1440,0 1440,80" />
+        </svg>
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,6 @@
+<svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" fill="none" role="img" aria-label="Sweep Property Plus mark">
+  <!-- Outer sweep arc — gold, from lower-left through top to upper-right -->
+  <path d="M 9,27 A 13,13 0 0,1 27,9" stroke="#F2BD71" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Inner arc — teal, concentric, slightly narrower -->
+  <path d="M 12,24 A 8.5,8.5 0 0,1 24,12" stroke="#337068" stroke-width="2" stroke-linecap="round"/>
+</svg>
