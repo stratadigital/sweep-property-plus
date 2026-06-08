@@ -112,31 +112,29 @@ No pill-shaped buttons. Tight radius signals precision and professionalism; the 
 
 Left-aligned by default. Centered headers on every section is the universal template signal. Structure:
 ```
-[gold label — xs, semibold, uppercase, tracking-widest]
-[h-0.5 w-10 bg-gold bar — visual connector, mt-3]
-[h2 — bold, tracking-tight, mt-4]
+[ghost text — oversized word, absolute, top-0 left-0, 5% opacity, 7-9rem]
+[relative z-[1] content wrapper]
+  [gold label — xs, semibold, uppercase, tracking-widest]
+  [h-0.5 w-10 bg-gold bar — visual connector, mt-3]
+  [h2 — bold, tracking-tight, mt-4]
 ```
 
-## Section Backgrounds
+**Ghost text pattern** — oversized background word behind every section header. Translates the brochure's oversized-text motif to web. Clips at `overflow-hidden` on the header container.
 
-Alternate to create visual rhythm and prevent a flat surface. Colors do structural work — not just accents.
-- Hero: teal image overlay
-- Services: `bg-teal-dark`
-- Why Us: `bg-white`
-- Industries: `bg-cream`
-- How It Works: `bg-teal`
-- Testimonials: `bg-white`
-- Contact / Footer: `bg-teal-dark`
+```tsx
+<div className="relative overflow-hidden mb-16">
+  <span aria-hidden="true" className="pointer-events-none absolute top-0 left-0 select-none text-[7rem] font-bold leading-none tracking-tighter text-[color]/[0.05] sm:text-[9rem]">
+    WORD
+  </span>
+  <div className="relative z-[1]">
+    {/* label, bar, heading */}
+  </div>
+</div>
+```
 
-## Services Layout
-
-**Not a card grid.** Bold horizontal rows on `bg-teal-dark`:
-- Large gold number (01–06) left, low opacity at rest
-- Service name in white at `text-2xl font-semibold`
-- Description in `text-white/60`
-- Rows separated by `divide-white/10`
-- Day Porter: `border-l-2 border-gold pl-6` — the gold border does the work, no badge needed
-- Subtle `hover:bg-white/[0.03]` on each row
+- Dark sections: `text-white/[0.05]`
+- Light sections (white/cream): `text-teal/[0.06]` or `text-teal-dark/[0.05]`
+- Keywords per section: Services → CLEAN, About → BUILT, WhyUs → QUALITY, Industries → SERVE, Contact → QUOTE
 
 ## Cards
 
@@ -149,18 +147,34 @@ Used outside the services section (testimonials, industries, etc.):
 
 ## Animations
 
-Philosophy: animations should be invisible when working correctly. The goal is considered, not impressive.
+All animation variants live in **`src/lib/animations.ts`** — single source of truth. Never define ad-hoc Framer Motion variants in components.
+
+Philosophy: animations should feel intentional and purposeful. Bold enough to notice as the page reveals, professional enough to never distract.
+
+| Export | Use | Key values |
+|---|---|---|
+| `heroContainer` / `heroItem` | Hero page load stagger | `y: 40`, `duration: 0.7`, stagger `0.15s` |
+| `fadeUp` | Section headers | `y: 32`, `duration: 0.65` |
+| `fadeUpContent` | Prose blocks, panels | `y: 24`, `duration: 0.6` |
+| `slideInLeft` / `slideInRight` | Two-column layouts | `x: ±40`, `duration: 0.65` |
+| `staggerContainer` | Stagger wrappers | `staggerChildren: 0.1` |
+| `staggerItem` | List/feature items | `y: 20`, `duration: 0.5` |
+| `rowItem` | Service rows | `x: -24`, `duration: 0.45` |
+| `cardItem` | Cards | `y: 28`, `scale: 0.97→1`, `duration: 0.5` |
+| `fadeIn` | Footnotes, secondary | `opacity 0→1`, `duration: 0.5` |
+| `viewport` | Standard trigger | `once: true, amount: 0.15` |
+| `viewportEarly` | Tall stagger containers | `once: true, amount: 0.08` |
+
+Easing: custom expo-out `[0.16, 1, 0.3, 1]` on all variants — fast start, buttery deceleration.
 
 | Pattern | Details |
 |---|---|
-| Scroll reveal | `opacity 0→1` + `translateY 20px→0`, `400ms ease-out` |
-| Card grid stagger | 50ms delay between each card |
-| Stat counters | Count up from 0 on scroll-into-view |
-| Card hover | `translateY(-2px)` + shadow |
+| Card hover | `translateY(-2px)` + deeper shadow |
 | Nav link hover | Gold underline slides in from left |
-| Gold button hover | Subtle background shimmer |
+| Gold button hover | `brightness-110` on hover |
 
 **Rules:**
 - Animate `transform` and `opacity` only — never layout properties
 - Use `motion` (Framer Motion, already installed) with `whileInView` + `once: true`
 - No parallax — kills Lighthouse Performance and CLS
+- Hero uses `animate=` not `whileInView` (loads immediately, not scroll-triggered)

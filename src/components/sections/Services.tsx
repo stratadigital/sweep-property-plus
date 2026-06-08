@@ -1,49 +1,42 @@
 'use client'
 
-import { motion, type Variants } from 'motion/react'
+import { motion } from 'motion/react'
+import { fadeUp, staggerContainer, rowItem, fadeUpContent, viewport, viewportEarly } from '@/lib/animations'
 
 const services = [
   {
     number: '01',
-    name: 'Daily Office Cleaning',
+    name: 'Special Cleaning',
     description:
-      'Consistent nightly cleaning tailored to your office schedule — so your team arrives to a fresh space every morning.',
+      'Targeted cleaning for high-traffic and hard-to-reach areas — the spots that need extra attention beyond the regular program.',
   },
   {
     number: '02',
-    name: 'Special Cleaning',
-    description:
-      'High-touch surfaces and overlooked corners get the attention they need. Where it counts most.',
-  },
-  {
-    number: '03',
     name: 'Deep Cleaning',
     description:
       'Full top-to-bottom service that removes built-up dirt and grime — ideal for move-ins, inspections, or seasonal resets.',
   },
   {
-    number: '04',
+    number: '03',
     name: 'Carpet Cleaning & Shampooing',
     description:
       'Professional extraction that lifts stains and allergens deep within fibers, extending the life of your flooring.',
   },
   {
-    number: '05',
+    number: '04',
     name: 'Floor Scrubbing & Shining',
     description:
       'Machine scrubbing and polish that leaves hard floors spotless and gleaming — the kind of clean you can see.',
   },
 ]
 
-const rowContainer: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.07 } },
-}
+const dayPorterPoints = [
+  'Continuous upkeep of restrooms, lobbies, and common areas',
+  'Restocking supplies and maintaining high-traffic spaces',
+  'Prompt response to spills, messes, or urgent cleaning needs',
+  'Ensuring your workspace always looks presentable for staff and visitors',
+]
 
-const rowItem: Variants = {
-  hidden: { opacity: 0, x: -16 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
-}
 
 export default function Services() {
   return (
@@ -52,28 +45,36 @@ export default function Services() {
 
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45, ease: 'easeOut' }}
-          className="mb-16"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="relative mb-16 overflow-hidden"
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-gold">
-            What We Offer
-          </p>
-          <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Services built for commercial spaces
-          </h2>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute top-0 left-0 select-none text-[7rem] font-bold leading-none tracking-tighter text-white/[0.05] sm:text-[9rem]"
+          >
+            CLEAN
+          </span>
+          <div className="relative z-[1]">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+              What We Offer
+            </p>
+            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              Services built for commercial spaces
+            </h2>
+          </div>
         </motion.div>
 
         {/* Service rows */}
         <motion.div
           className="divide-y divide-white/10"
-          variants={rowContainer}
+          variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={viewportEarly}
         >
           {services.map((service) => (
             <motion.div
@@ -92,6 +93,39 @@ export default function Services() {
               </div>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* Day Porter callout */}
+        <motion.div
+          variants={fadeUpContent}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="mt-16 grid grid-cols-1 gap-8 border-t border-white/10 pt-14 lg:grid-cols-2 lg:gap-16"
+        >
+          {/* Left */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-gold">Day Porter</p>
+            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
+            <h3 className="mt-4 text-2xl font-semibold text-white">
+              A dedicated presence during business hours.
+            </h3>
+            <p className="mt-4 text-base leading-7 text-white/60">
+              While your regular cleaning program runs after hours, a Day Porter is on-site during
+              the workday — keeping your building presentable as people move through it. Five hours
+              a day, handled.
+            </p>
+          </div>
+
+          {/* Right — bullet points from brochure */}
+          <ul className="space-y-4 self-center">
+            {dayPorterPoints.map((point) => (
+              <li key={point} className="flex items-baseline gap-3">
+                <span className="size-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />
+                <span className="text-base leading-7 text-white/70">{point}</span>
+              </li>
+            ))}
+          </ul>
         </motion.div>
 
       </div>

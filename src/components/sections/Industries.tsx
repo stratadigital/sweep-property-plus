@@ -1,49 +1,34 @@
 'use client'
 
-import { motion, type Variants } from 'motion/react'
+import { motion } from 'motion/react'
+import { fadeUp, staggerContainer, cardItem, fadeIn, viewport, viewportEarly } from '@/lib/animations'
 import {
   BuildingOffice2Icon,
   AcademicCapIcon,
   BuildingStorefrontIcon,
-  BriefcaseIcon,
 } from '@heroicons/react/24/outline'
 
 const industries = [
   {
     name: 'Office Buildings',
     description:
-      'Daily programs for multi-tenant offices, common areas, and conference spaces — scaled to your building.',
+      'Daily and ongoing cleaning programs for office buildings, common areas, and multi-tenant complexes.',
     icon: BuildingOffice2Icon,
   },
   {
     name: 'Schools & Universities',
     description:
-      'Thorough sanitation for classrooms, hallways, and restrooms, keeping students and staff safe.',
+      'Regular cleaning programs for classrooms, hallways, restrooms, and shared spaces.',
     icon: AcademicCapIcon,
   },
   {
     name: 'Retail & Shopping Centers',
     description:
-      'High-traffic floor care, restroom maintenance, and lobby upkeep that reflects your brand standards.',
+      'Cleaning services for retail spaces, shopping centers, and other high-traffic commercial properties.',
     icon: BuildingStorefrontIcon,
-  },
-  {
-    name: 'Medical Buildings',
-    description:
-      'Cleaning protocols designed for environments where hygiene standards are non-negotiable.',
-    icon: BriefcaseIcon,
   },
 ]
 
-const cardContainer: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.07 } },
-}
-
-const cardItem: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
-}
 
 export default function Industries() {
   return (
@@ -52,28 +37,36 @@ export default function Industries() {
 
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45, ease: 'easeOut' }}
-          className="mb-16"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="relative mb-16 overflow-hidden"
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-gold">
-            Who We Serve
-          </p>
-          <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
-            Built for large-scale commercial spaces
-          </h2>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute top-0 left-0 select-none text-[7rem] font-bold leading-none tracking-tighter text-teal-dark/[0.05] sm:text-[9rem]"
+          >
+            SERVE
+          </span>
+          <div className="relative z-[1]">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+              Who We Serve
+            </p>
+            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
+              Built for large-scale commercial spaces
+            </h2>
+          </div>
         </motion.div>
 
         {/* Industry cards */}
         <motion.div
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
-          variants={cardContainer}
+          className="grid grid-cols-1 gap-6 sm:grid-cols-3"
+          variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={viewportEarly}
         >
           {industries.map(({ name, description, icon: Icon }) => (
             <motion.div
@@ -90,10 +83,10 @@ export default function Industries() {
 
         {/* Note */}
         <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.3 }}
+          variants={fadeIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
           className="mt-12 text-sm text-neutral-mid"
         >
           Don&rsquo;t see your facility type? We likely service it —{' '}
@@ -111,7 +104,7 @@ export default function Industries() {
           viewBox="0 0 1440 80"
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
-          className="block h-20 w-full fill-cream"
+          className="block h-20 w-full fill-white"
         >
           <polygon points="0,80 1440,0 1440,80" />
         </svg>

@@ -1,5 +1,5 @@
 const serviceLinks = [
-  { name: 'Daily Office Cleaning', href: '#services' },
+  { name: 'Special Cleaning', href: '#services' },
   { name: 'Deep Cleaning', href: '#services' },
   { name: 'Carpet Cleaning & Shampooing', href: '#services' },
   { name: 'Floor Scrubbing & Shining', href: '#services' },
@@ -27,8 +27,8 @@ export default function Footer() {
               <span className="text-sm font-semibold text-white/80">Sweep Property Plus</span>
             </div>
             <p className="mt-4 max-w-xs text-sm leading-7 text-white/60">
-              Professional commercial cleaning services for offices, buildings, and facilities of
-              all sizes.
+              Commercial cleaning services for office buildings, schools, and large commercial
+              facilities.
             </p>
           </div>
 

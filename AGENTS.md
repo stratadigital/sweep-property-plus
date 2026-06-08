@@ -6,16 +6,16 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ---
 
-# Next.js Starter Template
+# Sweep Property Plus
 
-> **When starting a new project from this template:** replace this section with project-specific details — what the site is, what it does, any key decisions made for that project.
+Commercial cleaning company website. B2B audience: building managers and facilities directors. Single-page marketing site — the quote form in the Contact section is the primary conversion point. Full design system and brand rules in `DESIGN.md`.
 
-## Template Stack
+## Stack
 
 - **Framework**: Next.js 16, App Router, TypeScript
 - **Styling**: Tailwind CSS v4
 - **UI Components**: Catalyst UI Kit (Tailwind Labs) — components in `src/components/ui/`
-- **Fonts**: Geist / Geist Mono via `next/font/google` (configured in `src/app/layout.tsx`)
+- **Fonts**: Space Grotesk (variable font, weights 300–700) via `next/font/google` (configured in `src/app/layout.tsx`)
 - **Contact Forms**: Web3Forms — access key required in `.env.local`
 - **Code Formatting**: Prettier with `prettier-plugin-tailwindcss` (auto-sorts Tailwind class names)
 - **Linting**: ESLint with Next.js rules + `eslint-config-prettier`
@@ -55,7 +55,7 @@ Catalyst depends on: `@headlessui/react`, `motion`, `clsx` (all installed).
 
 | Variable | Purpose |
 |---|---|
-| `WEB3FORMS_ACCESS_KEY` | Web3Forms contact form key |
+| `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` | Web3Forms contact form key |
 
 See `.env.example` for the full list. Copy to `.env.local` and fill in values.
 

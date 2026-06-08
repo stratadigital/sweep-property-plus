@@ -3,12 +3,7 @@
 import { useState, FormEvent } from 'react'
 import { motion } from 'motion/react'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
-
-const trustPoints = [
-  'Response within 1 business day',
-  'No long-term contracts required',
-  'Tailored programs for any facility type',
-]
+import { slideInLeft, slideInRight, viewport } from '@/lib/animations'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -40,39 +35,40 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="relative bg-cream pb-32 pt-20 lg:pb-40 lg:pt-28">
+    <section id="contact" className="relative bg-white pb-32 pt-20 lg:pb-40 lg:pt-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
 
           {/* Left — info */}
           <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.55, ease: 'easeOut' }}
+            variants={slideInLeft}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-gold">
-              Get in Touch
-            </p>
-            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
-              Let&rsquo;s talk about your space.
-            </h2>
+            <div className="relative overflow-hidden">
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute top-0 left-0 select-none text-[7rem] font-bold leading-none tracking-tighter text-teal/[0.06] sm:text-[9rem]"
+              >
+                QUOTE
+              </span>
+              <div className="relative z-[1]">
+                <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+                  Get in Touch
+                </p>
+                <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
+                <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
+                  Let&rsquo;s talk about your space.
+                </h2>
+              </div>
+            </div>
             <p className="mt-6 text-base leading-7 text-neutral-mid">
-              Tell us about your building and what you need. We&rsquo;ll follow up within one
-              business day with a tailored proposal.
+              Tell us about your building and what you need. We&rsquo;ll be in touch to discuss
+              a cleaning program for your facility.
             </p>
 
-            <ul className="mt-10 space-y-4">
-              {trustPoints.map((point) => (
-                <li key={point} className="flex items-center gap-3">
-                  <CheckCircleIcon className="size-5 shrink-0 text-teal" aria-hidden="true" />
-                  <span className="text-sm font-medium text-teal-dark">{point}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-12 space-y-3 text-sm text-neutral-mid">
+            <div className="mt-10 space-y-3 text-sm text-neutral-mid">
               <p>
                 <span className="font-semibold text-teal-dark">Email:</span>{' '}
                 info@sweeppropertyplus.com
@@ -85,13 +81,13 @@ export default function Contact() {
 
           {/* Right — form */}
           <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.55, ease: 'easeOut' }}
+            variants={slideInRight}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
           >
             {status === 'success' ? (
-              <div className="flex h-full flex-col items-start justify-center rounded-xl bg-white p-10 shadow-sm">
+              <div className="flex h-full flex-col items-start justify-center rounded-xl bg-cream p-10 shadow-sm">
                 <CheckCircleIcon className="mb-4 size-12 text-teal" aria-hidden="true" />
                 <h3 className="text-xl font-semibold text-teal-dark">Request received.</h3>
                 <p className="mt-3 text-base leading-7 text-neutral-mid">
@@ -100,7 +96,7 @@ export default function Contact() {
                 </p>
                 <button
                   onClick={() => setStatus('idle')}
-                  className="mt-8 text-sm font-semibold text-teal underline-offset-2 hover:underline"
+                  className="mt-8 cursor-pointer text-sm font-semibold text-teal underline-offset-2 hover:underline"
                 >
                   Send another request
                 </button>
@@ -108,7 +104,7 @@ export default function Contact() {
             ) : (
               <form
                 onSubmit={handleSubmit}
-                className="rounded-xl bg-white p-8 shadow-sm lg:p-10"
+                className="rounded-xl bg-cream p-8 shadow-sm lg:p-10"
                 noValidate
               >
                 <input
@@ -176,6 +172,25 @@ export default function Contact() {
                   </div>
 
                   <div>
+                    <label htmlFor="facility_type" className="mb-1.5 block text-sm font-semibold text-teal-dark">
+                      Facility Type
+                    </label>
+                    <select
+                      id="facility_type"
+                      name="facility_type"
+                      defaultValue=""
+                      className="w-full rounded border border-teal/20 bg-white px-4 py-3 text-sm text-neutral-dark transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15"
+                    >
+                      <option value="" disabled>Select facility type</option>
+                      <option value="Office Building">Office Building</option>
+                      <option value="School / University">School / University</option>
+                      <option value="Retail / Shopping Center">Retail / Shopping Center</option>
+                      <option value="Medical Building">Medical Building</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+
+                  <div>
                     <label htmlFor="message" className="mb-1.5 block text-sm font-semibold text-teal-dark">
                       Tell us about your space <span className="text-gold">*</span>
                     </label>
@@ -184,7 +199,7 @@ export default function Contact() {
                       name="message"
                       required
                       rows={5}
-                      placeholder="Building type, square footage, services needed, preferred schedule..."
+                      placeholder="Square footage, services needed, preferred schedule..."
                       className="w-full resize-none rounded border border-teal/20 bg-white px-4 py-3 text-sm text-neutral-dark placeholder:text-neutral-mid transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15"
                     />
                   </div>
@@ -198,7 +213,7 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={status === 'submitting'}
-                    className="w-full rounded bg-gold py-3 text-sm font-semibold text-teal-dark shadow-sm transition-all duration-200 hover:brightness-110 active:brightness-95 disabled:opacity-60"
+                    className="w-full cursor-pointer rounded bg-gold py-3 text-sm font-semibold text-teal-dark shadow-sm transition-all duration-200 hover:brightness-110 active:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {status === 'submitting' ? 'Sending…' : 'Request a Free Quote'}
                   </button>

@@ -1,41 +1,33 @@
 'use client'
 
 import Image from 'next/image'
-import { motion, type Variants } from 'motion/react'
+import { motion } from 'motion/react'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
+import { slideInLeft, slideInRight, staggerContainer, staggerItem, viewport, viewportEarly } from '@/lib/animations'
 
 const features = [
   {
     name: 'Daily Reports to Management',
     description:
-      'Every shift ends with a written report delivered to your building management team. You stay informed without having to ask.',
+      'After every shift, building management receives a written report. You stay informed about what was done without having to follow up.',
   },
   {
-    name: 'Tailored Cleaning Programs',
+    name: 'Programs Tailored to Your Facility',
     description:
-      'No two buildings are the same. We build your program around your space, schedule, and standard — then stick to it.',
+      'We listen to what your building needs and build a cleaning program around your space, schedule, and standards — then tailor it as those needs change.',
   },
   {
-    name: 'Consistent, Vetted Teams',
+    name: 'Clear Communication',
     description:
-      'The same crew returns to your building every time. Familiarity with your space means nothing gets missed.',
+      'We partner closely with building management and property teams. You have direct access to our team and we communicate openly throughout the relationship.',
   },
   {
-    name: 'Documented, Repeatable Process',
+    name: 'High Standards on Every Visit',
     description:
-      'Every cleaning program is written down and followed. Not approximated — executed the same way, every time.',
+      'We hold ourselves to consistent quality and reliability across every service we provide — not just at the start of a contract.',
   },
 ]
 
-const listContainer: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-}
-
-const listItem: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
-}
 
 export default function WhyUs() {
   return (
@@ -45,14 +37,14 @@ export default function WhyUs() {
 
           {/* Image */}
           <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.55, ease: 'easeOut' }}
+            variants={slideInLeft}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
             className="relative h-80 overflow-hidden rounded-xl lg:h-140"
           >
             <Image
-              src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=80"
+              src="https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1200&q=80"
               alt="Clean professional office interior"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
@@ -62,30 +54,40 @@ export default function WhyUs() {
 
           {/* Content */}
           <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.55, ease: 'easeOut' }}
+            variants={slideInRight}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-gold">
-              Why Choose Us
-            </p>
-            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
-              The standard you expect.
-              <br />
-              The consistency you can count on.
-            </h2>
+            <div className="relative overflow-hidden">
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute top-0 left-0 select-none text-[7rem] font-bold leading-none tracking-tighter text-teal/[0.06] sm:text-[9rem]"
+              >
+                QUALITY
+              </span>
+              <div className="relative z-[1]">
+                <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+                  Why Choose Us
+                </p>
+                <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
+                <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
+                  The standard you expect.
+                  <br />
+                  The consistency you can count on.
+                </h2>
+              </div>
+            </div>
 
             <motion.ul
               className="mt-10 space-y-8"
-              variants={listContainer}
+              variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
+              viewport={viewportEarly}
             >
               {features.map((feature) => (
-                <motion.li key={feature.name} variants={listItem} className="flex gap-4">
+                <motion.li key={feature.name} variants={staggerItem} className="flex gap-4">
                   <CheckCircleIcon
                     aria-hidden="true"
                     className="mt-0.5 size-5 shrink-0 text-teal"

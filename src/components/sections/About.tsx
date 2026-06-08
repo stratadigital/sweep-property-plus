@@ -1,58 +1,59 @@
 'use client'
 
 import { motion } from 'motion/react'
+import { staggerContainer, fadeUp, fadeUpContent, viewport } from '@/lib/animations'
 
 export default function About() {
   return (
-    <section id="about" className="relative bg-white pb-32 pt-20 lg:pb-40 lg:pt-28">
+    <section id="about" className="relative bg-cream pb-32 pt-20 lg:pb-40 lg:pt-28">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-20">
+        <motion.div
+          className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-20"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
 
           {/* Left — header */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.45, ease: 'easeOut' }}
-          >
-            <p className="text-xs font-semibold uppercase tracking-widest text-gold">About Us</p>
-            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
-              The standard your building sets every day.
-            </h2>
+          <motion.div variants={fadeUp} className="relative overflow-hidden">
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute top-0 left-0 select-none text-[7rem] font-bold leading-none tracking-tighter text-teal-dark/[0.06] sm:text-[9rem]"
+            >
+              BUILT
+            </span>
+            <div className="relative z-[1]">
+              <p className="text-xs font-semibold uppercase tracking-widest text-gold">About Us</p>
+              <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
+              <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
+                Commercial cleaning built for large facilities.
+              </h2>
+            </div>
           </motion.div>
 
           {/* Right — prose */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.55, ease: 'easeOut', delay: 0.1 }}
-            className="lg:col-span-2 space-y-6"
-          >
+          <motion.div variants={fadeUpContent} className="lg:col-span-2 space-y-6">
             <p className="text-base leading-7 text-neutral-mid">
-              A building communicates before anyone opens their mouth. The condition of the lobby at
-              8am, the restrooms mid-afternoon, the floors after the evening crew has moved through
-              — these are the details that shape how tenants feel about their space, and how
-              visitors judge the organization inside it. For facilities directors and property
-              managers, maintaining that standard across every floor, every day, without it becoming
-              a constant distraction, is the real challenge.
+              Sweep Property Plus is a commercial cleaning company specializing in large
+              facilities — office buildings, schools, retail centers, and multi-tenant
+              complexes. We build daily cleaning programs around each building and maintain
+              them long-term.
             </p>
             <p className="text-base leading-7 text-neutral-mid">
-              Sweep Property Plus is a commercial cleaning company built around large-scale
-              facilities. We work with office buildings, multi-tenant complexes, and institutional
-              spaces that demand operational consistency — the kind where the crew is familiar, the
-              process is documented, and the building manager stops having to think about cleaning
-              because it simply gets done.
+              Every program includes a consistent crew assigned to your building, a documented
+              cleaning schedule tailored to your space, and daily reports delivered to
+              management after every shift. Once the program is in place, the building gets
+              cleaned reliably — without requiring ongoing attention from your team.
             </p>
             <p className="text-base leading-7 text-neutral-mid">
-              Our work is methodical and tailored to each facility. The standard is established on
-              day one, and we hold it. The measure of our service isn&rsquo;t the initial
-              impression — it&rsquo;s whether you notice us missing when we&rsquo;re not there.
+              We work directly with facilities directors and property managers. Getting the
+              program right from day one — and holding that standard — is how we build
+              long-term relationships with our clients.
             </p>
           </motion.div>
 
-        </div>
+        </motion.div>
       </div>
 
       {/* Diagonal → Services (teal-dark) */}
