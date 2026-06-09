@@ -119,22 +119,28 @@ Left-aligned by default. Centered headers on every section is the universal temp
   [h2 — bold, tracking-tight, mt-4]
 ```
 
-**Ghost text pattern** — oversized background word behind every section header. Translates the brochure's oversized-text motif to web. Clips at `overflow-hidden` on the header container.
+**Ghost text pattern** — oversized background word, section-level, acting as a massive typographic backdrop behind the entire section header area. Translates the brochure's oversized-text motif to web. Section gets `overflow-hidden` to clip bleed naturally.
 
 ```tsx
-<div className="relative overflow-hidden mb-16">
-  <span aria-hidden="true" className="pointer-events-none absolute top-0 left-0 select-none text-[7rem] font-bold leading-none tracking-tighter text-[color]/[0.05] sm:text-[9rem]">
-    WORD
-  </span>
-  <div className="relative z-[1]">
-    {/* label, bar, heading */}
-  </div>
+{/* Ghost text is a direct child of <section>, before the content div */}
+<span aria-hidden="true" className="pointer-events-none absolute top-0 left-0 select-none text-[10rem] font-bold leading-none tracking-tighter text-[color] lg:text-[20rem]">
+  WORD
+</span>
+
+{/* Content wrapper sits above ghost text */}
+<div className="relative z-1 mx-auto max-w-6xl px-6">
+  {/* label, bar, heading — no extra wrapper needed */}
 </div>
+
+{/* Diagonal SVG gets z-2 to stack above ghost text */}
+<div className="absolute bottom-0 left-0 z-2 w-full overflow-hidden leading-none" aria-hidden="true">
 ```
 
-- Dark sections: `text-white/[0.05]`
-- Light sections (white/cream): `text-teal/[0.06]` or `text-teal-dark/[0.05]`
-- Keywords per section: Services → CLEAN, About → BUILT, WhyUs → QUALITY, Industries → SERVE, Contact → QUOTE
+- Dark sections (Services): `text-white/5`
+- White sections (WhyUs, Contact): `text-teal/7`
+- Cream sections (About, Industries): `text-teal-dark/6`
+- Keywords per section: Services → CLEAN, About → ABOUT, WhyUs → TRUST, Industries → SERVE, Contact → CONTACT
+- Size: `text-[10rem] lg:text-[20rem]` — 8–9× the heading font size at desktop
 
 ## Cards
 

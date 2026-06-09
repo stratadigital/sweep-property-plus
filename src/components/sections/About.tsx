@@ -5,8 +5,17 @@ import { staggerContainer, fadeUp, fadeUpContent, viewport } from '@/lib/animati
 
 export default function About() {
   return (
-    <section id="about" className="relative bg-cream pb-32 pt-20 lg:pb-40 lg:pt-28">
-      <div className="mx-auto max-w-6xl px-6">
+    <section id="about" className="relative overflow-hidden bg-cream pb-32 pt-20 lg:pb-40 lg:pt-28">
+
+      {/* Ghost text — section-level backdrop */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute top-0 left-0 select-none text-[10rem] font-bold leading-none tracking-tighter text-teal-dark/6 lg:text-[20rem]"
+      >
+        ABOUT
+      </span>
+
+      <div className="relative z-1 mx-auto max-w-6xl px-6">
         <motion.div
           className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-20"
           variants={staggerContainer}
@@ -16,40 +25,30 @@ export default function About() {
         >
 
           {/* Left — header */}
-          <motion.div variants={fadeUp} className="relative overflow-hidden">
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute top-0 left-0 select-none text-[7rem] font-bold leading-none tracking-tighter text-teal-dark/[0.06] sm:text-[9rem]"
-            >
-              BUILT
-            </span>
-            <div className="relative z-[1]">
-              <p className="text-xs font-semibold uppercase tracking-widest text-gold">About Us</p>
-              <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
-              <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
-                Commercial cleaning built for large facilities.
-              </h2>
-            </div>
+          <motion.div variants={fadeUp}>
+            <p className="text-xs font-semibold uppercase tracking-widest text-gold">About Us</p>
+            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
+              Dependable commercial cleaning for large facilities.
+            </h2>
           </motion.div>
 
           {/* Right — prose */}
-          <motion.div variants={fadeUpContent} className="lg:col-span-2 space-y-6">
+          <motion.div variants={fadeUpContent} className="space-y-6 lg:col-span-2">
             <p className="text-base leading-7 text-neutral-mid">
               Sweep Property Plus is a commercial cleaning company specializing in large
               facilities — office buildings, schools, retail centers, and multi-tenant
-              complexes. We build daily cleaning programs around each building and maintain
-              them long-term.
+              complexes.
             </p>
             <p className="text-base leading-7 text-neutral-mid">
-              Every program includes a consistent crew assigned to your building, a documented
-              cleaning schedule tailored to your space, and daily reports delivered to
-              management after every shift. Once the program is in place, the building gets
-              cleaned reliably — without requiring ongoing attention from your team.
+              We partner closely with property management teams throughout each engagement.
+              After every shift, building management receives a daily report on what was
+              completed.
             </p>
             <p className="text-base leading-7 text-neutral-mid">
-              We work directly with facilities directors and property managers. Getting the
-              program right from day one — and holding that standard — is how we build
-              long-term relationships with our clients.
+              Clear communication is central to how we work. We stay in direct contact with
+              facilities directors and property managers to make sure the work consistently
+              reflects what each building requires.
             </p>
           </motion.div>
 
@@ -57,7 +56,7 @@ export default function About() {
       </div>
 
       {/* Diagonal → Services (teal-dark) */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none" aria-hidden="true">
+      <div className="absolute bottom-0 left-0 z-2 w-full overflow-hidden leading-none" aria-hidden="true">
         <svg
           viewBox="0 0 1440 80"
           xmlns="http://www.w3.org/2000/svg"

@@ -8,8 +8,7 @@ import { slideInLeft, slideInRight, staggerContainer, staggerItem, viewport, vie
 const features = [
   {
     name: 'Daily Reports to Management',
-    description:
-      'After every shift, building management receives a written report. You stay informed about what was done without having to follow up.',
+    description: 'Building management receives a daily report after every shift.',
   },
   {
     name: 'Programs Tailored to Your Facility',
@@ -31,8 +30,17 @@ const features = [
 
 export default function WhyUs() {
   return (
-    <section id="why-us" className="relative bg-white pb-32 pt-20 lg:pb-40 lg:pt-28">
-      <div className="mx-auto max-w-6xl px-6">
+    <section id="why-us" className="relative overflow-hidden bg-white pb-32 pt-20 lg:pb-40 lg:pt-28">
+
+      {/* Ghost text — section-level backdrop */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute top-0 left-0 select-none text-[10rem] font-bold leading-none tracking-tighter text-teal/7 lg:text-[20rem]"
+      >
+        TRUST
+      </span>
+
+      <div className="relative z-1 mx-auto max-w-6xl px-6">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20">
 
           {/* Image */}
@@ -59,25 +67,15 @@ export default function WhyUs() {
             whileInView="visible"
             viewport={viewport}
           >
-            <div className="relative overflow-hidden">
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute top-0 left-0 select-none text-[7rem] font-bold leading-none tracking-tighter text-teal/[0.06] sm:text-[9rem]"
-              >
-                QUALITY
-              </span>
-              <div className="relative z-[1]">
-                <p className="text-xs font-semibold uppercase tracking-widest text-gold">
-                  Why Choose Us
-                </p>
-                <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
-                <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
-                  The standard you expect.
-                  <br />
-                  The consistency you can count on.
-                </h2>
-              </div>
-            </div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+              Why Choose Us
+            </p>
+            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
+              The standard you expect.
+              <br />
+              The consistency you can count on.
+            </h2>
 
             <motion.ul
               className="mt-10 space-y-8"
@@ -107,7 +105,7 @@ export default function WhyUs() {
       </div>
 
       {/* Diagonal → Industries (cream) */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none" aria-hidden="true">
+      <div className="absolute bottom-0 left-0 z-2 w-full overflow-hidden leading-none" aria-hidden="true">
         <svg
           viewBox="0 0 1440 80"
           xmlns="http://www.w3.org/2000/svg"

@@ -32,8 +32,17 @@ const industries = [
 
 export default function Industries() {
   return (
-    <section id="industries" className="relative bg-cream pb-32 pt-20 lg:pb-40 lg:pt-28">
-      <div className="mx-auto max-w-6xl px-6">
+    <section id="industries" className="relative overflow-hidden bg-cream pb-32 pt-20 lg:pb-40 lg:pt-28">
+
+      {/* Ghost text — section-level backdrop */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute top-0 left-0 select-none text-[10rem] font-bold leading-none tracking-tighter text-teal-dark/6 lg:text-[20rem]"
+      >
+        SERVE
+      </span>
+
+      <div className="relative z-1 mx-auto max-w-6xl px-6">
 
         {/* Header */}
         <motion.div
@@ -41,23 +50,15 @@ export default function Industries() {
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
-          className="relative mb-16 overflow-hidden"
+          className="mb-16"
         >
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute top-0 left-0 select-none text-[7rem] font-bold leading-none tracking-tighter text-teal-dark/[0.05] sm:text-[9rem]"
-          >
-            SERVE
-          </span>
-          <div className="relative z-[1]">
-            <p className="text-xs font-semibold uppercase tracking-widest text-gold">
-              Who We Serve
-            </p>
-            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
-              Built for large-scale commercial spaces
-            </h2>
-          </div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+            Who We Serve
+          </p>
+          <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
+            Built for large-scale commercial spaces
+          </h2>
         </motion.div>
 
         {/* Industry cards */}
@@ -98,8 +99,8 @@ export default function Industries() {
 
       </div>
 
-      {/* Diagonal → Contact (cream) */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none" aria-hidden="true">
+      {/* Diagonal → Contact (white) */}
+      <div className="absolute bottom-0 left-0 z-2 w-full overflow-hidden leading-none" aria-hidden="true">
         <svg
           viewBox="0 0 1440 80"
           xmlns="http://www.w3.org/2000/svg"

@@ -40,8 +40,17 @@ const dayPorterPoints = [
 
 export default function Services() {
   return (
-    <section id="services" className="relative bg-teal-dark pb-32 pt-20 lg:pb-40 lg:pt-28">
-      <div className="mx-auto max-w-6xl px-6">
+    <section id="services" className="relative overflow-hidden bg-teal-dark pb-32 pt-20 lg:pb-40 lg:pt-28">
+
+      {/* Ghost text — section-level backdrop */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute top-0 left-0 select-none text-[10rem] font-bold leading-none tracking-tighter text-white/5 lg:text-[20rem]"
+      >
+        CLEAN
+      </span>
+
+      <div className="relative z-1 mx-auto max-w-6xl px-6">
 
         {/* Header */}
         <motion.div
@@ -49,23 +58,15 @@ export default function Services() {
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
-          className="relative mb-16 overflow-hidden"
+          className="mb-16"
         >
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute top-0 left-0 select-none text-[7rem] font-bold leading-none tracking-tighter text-white/[0.05] sm:text-[9rem]"
-          >
-            CLEAN
-          </span>
-          <div className="relative z-[1]">
-            <p className="text-xs font-semibold uppercase tracking-widest text-gold">
-              What We Offer
-            </p>
-            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Services built for commercial spaces
-            </h2>
-          </div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+            What We Offer
+          </p>
+          <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            Services built for commercial spaces
+          </h2>
         </motion.div>
 
         {/* Service rows */}
@@ -131,7 +132,7 @@ export default function Services() {
       </div>
 
       {/* Diagonal → WhyUs (white) */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none" aria-hidden="true">
+      <div className="absolute bottom-0 left-0 z-2 w-full overflow-hidden leading-none" aria-hidden="true">
         <svg
           viewBox="0 0 1440 80"
           xmlns="http://www.w3.org/2000/svg"
