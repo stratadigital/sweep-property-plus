@@ -7,7 +7,14 @@ import {
   ClipboardDocumentCheckIcon,
   ChatBubbleLeftRightIcon,
 } from '@heroicons/react/24/outline'
-import { staggerContainer, fadeUp, fadeUpContent, staggerItem, viewport } from '@/lib/animations'
+import {
+  staggerContainer,
+  fadeUp,
+  fadeUpContent,
+  staggerItem,
+  viewport,
+  viewportTall,
+} from '@/lib/animations'
 
 const points = [
   {
@@ -44,7 +51,7 @@ export default function About() {
       >
         {/* Header */}
         <motion.div variants={fadeUp} className="max-w-2xl">
-          <p className="text-gold text-xs font-semibold tracking-widest uppercase">About Us</p>
+          <p className="text-gold-dark text-xs font-semibold tracking-widest uppercase">About Us</p>
           <div className="bg-gold mt-3 h-0.5 w-10" aria-hidden="true" />
           <h2 className="text-teal-dark mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
             Dependable commercial cleaning for large facilities.
@@ -52,16 +59,14 @@ export default function About() {
         </motion.div>
 
         {/* Three points */}
-        <dl className="mt-12 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-3 lg:gap-x-12">
+        <ul className="mt-16 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-3 lg:gap-x-12">
           {points.map((point) => (
-            <motion.div key={point.text} variants={staggerItem} className="relative pl-9">
-              <dt aria-hidden="true">
-                <point.icon className="text-teal absolute top-1 left-0 size-5" />
-              </dt>
-              <dd className="text-neutral-mid text-base leading-7">{point.text}</dd>
-            </motion.div>
+            <motion.li key={point.text} variants={staggerItem} className="relative pl-9">
+              <point.icon aria-hidden="true" className="text-teal absolute top-1 left-0 size-5" />
+              <p className="text-neutral-mid text-base leading-7">{point.text}</p>
+            </motion.li>
           ))}
-        </dl>
+        </ul>
       </motion.div>
 
       {/* Large image, rising out of the section */}
@@ -71,7 +76,7 @@ export default function About() {
             variants={fadeUpContent}
             initial="hidden"
             whileInView="visible"
-            viewport={viewport}
+            viewport={viewportTall}
             className="ring-teal-dark/10 relative h-72 overflow-hidden rounded-xl shadow-2xl ring-1 sm:h-96 lg:h-[32rem]"
           >
             <Image
@@ -83,7 +88,7 @@ export default function About() {
             />
             <div
               aria-hidden="true"
-              className="from-cream pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b"
+              className="from-cream pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-linear-to-b"
             />
           </motion.div>
         </div>

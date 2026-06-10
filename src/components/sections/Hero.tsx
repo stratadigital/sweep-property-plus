@@ -6,7 +6,7 @@ import { heroContainer, heroItem } from '@/lib/animations'
 
 export default function Hero() {
   return (
-    <section className="relative flex min-h-[90vh] items-center pb-20">
+    <section className="relative flex min-h-[90vh] items-center pb-24">
       {/* Background image */}
       <Image
         src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2070&q=80"
@@ -52,18 +52,24 @@ export default function Hero() {
           >
             Get a Free Quote
           </a>
+          <a
+            href="#services"
+            className="rounded border border-white/40 px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:border-white hover:bg-white/10"
+          >
+            View Services
+          </a>
         </motion.div>
       </motion.div>
 
       {/* Diagonal → About (cream) */}
       <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none" aria-hidden="true">
         <svg
-          viewBox="0 0 1440 96"
+          viewBox="0 0 1440 80"
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
-          className="block h-24 w-full fill-cream"
+          className="block h-20 w-full fill-cream"
         >
-          <polygon points="0,96 1440,0 1440,96" />
+          <polygon points="0,80 1440,0 1440,80" />
         </svg>
       </div>
     </section>

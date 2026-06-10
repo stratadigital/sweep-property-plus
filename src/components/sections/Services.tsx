@@ -52,48 +52,42 @@ export default function Services() {
 
       <div className="relative z-1 mx-auto max-w-6xl px-6">
 
-        {/* Header */}
+        {/* Header + rows — one coordinated stagger so they reveal as a sequence */}
         <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          className="mb-16"
-        >
-          <p className="text-xs font-semibold uppercase tracking-widest text-gold">
-            What We Offer
-          </p>
-          <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Services built for commercial spaces
-          </h2>
-        </motion.div>
-
-        {/* Service rows */}
-        <motion.div
-          className="divide-y divide-white/10"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={viewportEarly}
         >
-          {services.map((service) => (
-            <motion.div
-              key={service.name}
-              variants={rowItem}
-              className="group flex items-start gap-8 py-10 transition-colors duration-200 hover:bg-white/3"
-            >
-              <span className="w-12 shrink-0 font-bold text-gold opacity-60 lg:text-lg">
-                {service.number}
-              </span>
-              <div className="flex-1">
-                <h3 className="text-xl font-semibold text-white sm:text-2xl">{service.name}</h3>
-                <p className="mt-2 max-w-2xl text-base leading-7 text-white/60">
-                  {service.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+          <motion.div variants={fadeUp} className="mb-16">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+              What We Offer
+            </p>
+            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              Services built for commercial spaces
+            </h2>
+          </motion.div>
+
+          <div className="divide-y divide-white/10">
+            {services.map((service) => (
+              <motion.div
+                key={service.name}
+                variants={rowItem}
+                className="flex items-start gap-8 py-10"
+              >
+                <span className="w-12 shrink-0 font-bold text-gold lg:text-lg">
+                  {service.number}
+                </span>
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-white sm:text-2xl">{service.name}</h3>
+                  <p className="mt-2 max-w-2xl text-base leading-7 text-white/60">
+                    {service.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
 
         {/* Day Porter callout */}

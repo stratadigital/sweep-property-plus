@@ -4,7 +4,6 @@ import Services from '@/components/sections/Services'
 import WhyUs from '@/components/sections/WhyUs'
 import Industries from '@/components/sections/Industries'
 import Contact from '@/components/sections/Contact'
-import Footer from '@/components/sections/Footer'
 
 export default function Home() {
   return (
@@ -15,7 +14,6 @@ export default function Home() {
       <WhyUs />
       <Industries />
       <Contact />
-      <Footer />
     </>
   )
 }

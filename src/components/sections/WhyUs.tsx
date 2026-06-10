@@ -9,7 +9,7 @@ import {
   staggerContainer,
   staggerItem,
   viewport,
-  viewportEarly,
+  viewportTall,
 } from '@/lib/animations'
 
 const features = [
@@ -55,7 +55,7 @@ export default function WhyUs() {
             variants={slideInLeft}
             initial="hidden"
             whileInView="visible"
-            viewport={viewport}
+            viewport={viewportTall}
             className="relative h-80 overflow-hidden rounded-xl lg:h-140"
           >
             <Image
@@ -67,30 +67,26 @@ export default function WhyUs() {
             />
           </motion.div>
 
-          {/* Content */}
+          {/* Content — one stagger container: header slides in, features cascade after it */}
           <motion.div
-            variants={slideInRight}
+            variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
           >
-            <p className="text-gold text-xs font-semibold tracking-widest uppercase">
-              Why Choose Us
-            </p>
-            <div className="bg-gold mt-3 h-0.5 w-10" aria-hidden="true" />
-            <h2 className="text-teal-dark mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              The standard you expect.
-              <br />
-              The consistency you can count on.
-            </h2>
+            <motion.div variants={slideInRight}>
+              <p className="text-gold-dark text-xs font-semibold tracking-widest uppercase">
+                Why Choose Us
+              </p>
+              <div className="bg-gold mt-3 h-0.5 w-10" aria-hidden="true" />
+              <h2 className="text-teal-dark mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+                The standard you expect.
+                <br />
+                The consistency you can count on.
+              </h2>
+            </motion.div>
 
-            <motion.ul
-              className="mt-10 space-y-8"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportEarly}
-            >
+            <ul className="mt-10 space-y-8">
               {features.map((feature) => (
                 <motion.li key={feature.name} variants={staggerItem} className="flex gap-4">
                   <CheckCircleIcon
@@ -105,7 +101,7 @@ export default function WhyUs() {
                   </div>
                 </motion.li>
               ))}
-            </motion.ul>
+            </ul>
           </motion.div>
         </div>
       </div>

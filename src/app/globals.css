@@ -15,11 +15,9 @@
   --color-teal: #337068;
   --color-teal-dark: #1c4a43;
   --color-gold: #f2bd71;
+  --color-gold-dark: #8c5e1a;
   --color-cream: #f7f2ea;
   --color-neutral-mid: #6b7280;
   --color-neutral-dark: #1a1a1a;
-}
-
-html {
-  scroll-behavior: smooth;
+  --color-error: #b42318;
 }

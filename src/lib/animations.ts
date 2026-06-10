@@ -7,6 +7,9 @@ export const ease: [number, number, number, number] = [0.16, 1, 0.3, 1]
 export const viewport = { once: true, amount: 0.15 } as const
 // For tall stagger containers — trigger earlier so items don't appear mid-scroll
 export const viewportEarly = { once: true, amount: 0.08 } as const
+// For tall single elements (images, panels) — amount-based triggers fire too late on
+// elements taller than the viewport threshold; fire once the top is 120px past the fold
+export const viewportTall = { once: true, margin: '0px 0px -120px 0px' } as const
 
 // ─── Hero — most dramatic entrance ─────────────────────────────────────────
 export const heroContainer: Variants = {

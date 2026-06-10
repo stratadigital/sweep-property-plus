@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'motion/react'
-import { fadeUp, staggerContainer, cardItem, fadeIn, viewport, viewportEarly } from '@/lib/animations'
+import { fadeUp, staggerContainer, cardItem, fadeIn, viewportEarly } from '@/lib/animations'
 import {
   BuildingOffice2Icon,
   AcademicCapIcon,
@@ -44,58 +44,48 @@ export default function Industries() {
 
       <div className="relative z-1 mx-auto max-w-6xl px-6">
 
-        {/* Header */}
+        {/* Header + cards + note — one coordinated stagger */}
         <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          className="mb-16"
-        >
-          <p className="text-xs font-semibold uppercase tracking-widest text-gold">
-            Who We Serve
-          </p>
-          <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
-            Built for large-scale commercial spaces
-          </h2>
-        </motion.div>
-
-        {/* Industry cards */}
-        <motion.div
-          className="grid grid-cols-1 gap-6 sm:grid-cols-3"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={viewportEarly}
         >
-          {industries.map(({ name, description, icon: Icon }) => (
-            <motion.div
-              key={name}
-              variants={cardItem}
-              className="group rounded-xl bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-            >
-              <Icon className="mb-4 size-8 text-teal" aria-hidden="true" />
-              <h3 className="text-base font-semibold text-teal-dark">{name}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-neutral-mid">{description}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+          <motion.div variants={fadeUp} className="mb-16">
+            <p className="text-gold-dark text-xs font-semibold uppercase tracking-widest">
+              Who We Serve
+            </p>
+            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
+              Built for large-scale commercial spaces
+            </h2>
+          </motion.div>
 
-        {/* Note */}
-        <motion.p
-          variants={fadeIn}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          className="mt-12 text-sm text-neutral-mid"
-        >
-          Don&rsquo;t see your facility type? We likely service it —{' '}
-          <a href="#contact" className="font-semibold text-teal underline-offset-2 hover:underline">
-            reach out
-          </a>
-          .
-        </motion.p>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+            {industries.map(({ name, description, icon: Icon }) => (
+              <motion.div
+                key={name}
+                variants={cardItem}
+                className="rounded-xl bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <Icon className="mb-4 size-8 text-teal" aria-hidden="true" />
+                <h3 className="text-xl font-semibold text-teal-dark">{name}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-neutral-mid">{description}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.p variants={fadeIn} className="mt-12 text-sm text-neutral-mid">
+            Don&rsquo;t see your facility type? We likely service it —{' '}
+            <a
+              href="#contact"
+              className="font-semibold text-teal underline-offset-2 hover:underline"
+            >
+              reach out
+            </a>
+            .
+          </motion.p>
+        </motion.div>
 
       </div>
 

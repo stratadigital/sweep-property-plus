@@ -9,6 +9,8 @@ type Status = 'idle' | 'submitting' | 'success' | 'error'
 
 export default function Contact() {
   const [status, setStatus] = useState<Status>('idle')
+  // Controlled so the empty state can render placeholder-gray like the inputs
+  const [facilityType, setFacilityType] = useState('')
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -26,6 +28,7 @@ export default function Contact() {
       if (json.success) {
         setStatus('success')
         form.reset()
+        setFacilityType('')
       } else {
         setStatus('error')
       }
@@ -55,7 +58,7 @@ export default function Contact() {
             whileInView="visible"
             viewport={viewport}
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+            <p className="text-gold-dark text-xs font-semibold uppercase tracking-widest">
               Get in Touch
             </p>
             <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
@@ -118,7 +121,7 @@ export default function Contact() {
                   <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
                       <label htmlFor="name" className="mb-1.5 block text-sm font-semibold text-teal-dark">
-                        Name <span className="text-gold">*</span>
+                        Name <span className="text-gold-dark">*</span>
                       </label>
                       <input
                         id="name"
@@ -145,7 +148,7 @@ export default function Contact() {
 
                   <div>
                     <label htmlFor="email" className="mb-1.5 block text-sm font-semibold text-teal-dark">
-                      Email <span className="text-gold">*</span>
+                      Email <span className="text-gold-dark">*</span>
                     </label>
                     <input
                       id="email"
@@ -177,8 +180,11 @@ export default function Contact() {
                     <select
                       id="facility_type"
                       name="facility_type"
-                      defaultValue=""
-                      className="w-full rounded border border-teal/20 bg-white px-4 py-3 text-sm text-neutral-dark transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15"
+                      value={facilityType}
+                      onChange={(e) => setFacilityType(e.target.value)}
+                      className={`w-full rounded border border-teal/20 bg-white px-4 py-3 text-sm transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15 ${
+                        facilityType === '' ? 'text-neutral-mid' : 'text-neutral-dark'
+                      }`}
                     >
                       <option value="" disabled>Select facility type</option>
                       <option value="Office Building">Office Building</option>
@@ -191,7 +197,7 @@ export default function Contact() {
 
                   <div>
                     <label htmlFor="message" className="mb-1.5 block text-sm font-semibold text-teal-dark">
-                      Tell us about your space <span className="text-gold">*</span>
+                      Tell us about your space <span className="text-gold-dark">*</span>
                     </label>
                     <textarea
                       id="message"
@@ -204,7 +210,7 @@ export default function Contact() {
                   </div>
 
                   {status === 'error' && (
-                    <p className="text-sm font-medium text-red-600">
+                    <p className="text-error text-sm font-medium">
                       Something went wrong. Please try again or email us directly.
                     </p>
                   )}
