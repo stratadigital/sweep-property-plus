@@ -1,75 +1,50 @@
-const serviceLinks = [
-  { name: 'Special Cleaning', href: '#services' },
-  { name: 'Deep Cleaning', href: '#services' },
-  { name: 'Carpet Cleaning & Shampooing', href: '#services' },
-  { name: 'Floor Scrubbing & Shining', href: '#services' },
-]
+import Image from 'next/image'
+import Link from 'next/link'
 
-const companyLinks = [
-  { name: 'About Us', href: '#about' },
-  { name: 'Industries Served', href: '#industries' },
-  { name: 'Why Choose Us', href: '#why-us' },
-  { name: 'Get a Quote', href: '#contact' },
+const navigation = [
+  { name: 'About', href: '#about' },
+  { name: 'Services', href: '#services' },
+  { name: 'Why Us', href: '#why-us' },
+  { name: 'Industries', href: '#industries' },
+  { name: 'Contact', href: '#contact' },
 ]
 
 export default function Footer() {
   return (
     <footer className="bg-teal-dark">
-      <div className="mx-auto max-w-6xl px-6 pb-10 pt-20">
-
-        {/* Main grid */}
-        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-
-          {/* Brand — spans 2 cols on lg */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-2">
-              <span className="text-xl font-bold tracking-tight text-gold">SPP</span>
-              <span className="text-sm font-semibold text-white/80">Sweep Property Plus</span>
-            </div>
-            <p className="mt-4 max-w-xs text-sm leading-7 text-white/60">
+      <div className="mx-auto max-w-6xl px-6 pt-20 pb-10">
+        {/* Brand + nav */}
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+          {/* Brand */}
+          <div className="max-w-sm">
+            <Link href="/" className="inline-block">
+              <Image
+                src="/spp-logo-colored.png"
+                alt="Sweep Property Plus"
+                width={381}
+                height={200}
+                className="h-14 w-auto"
+                unoptimized
+              />
+            </Link>
+            <p className="mt-4 text-sm leading-7 text-white/60">
               Commercial cleaning services for office buildings, schools, and large commercial
               facilities.
             </p>
           </div>
 
-          {/* Services */}
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-gold/70">
-              Services
-            </p>
-            <ul className="mt-6 space-y-3">
-              {serviceLinks.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-sm text-white/60 transition-colors hover:text-white"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-gold/70">
-              Company
-            </p>
-            <ul className="mt-6 space-y-3">
-              {companyLinks.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-sm text-white/60 transition-colors hover:text-white"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
+          {/* Nav links — mirror the header */}
+          <nav className="flex flex-col gap-4 sm:flex-row sm:gap-10">
+            {navigation.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="text-sm font-semibold text-white/70 transition-colors hover:text-white"
+              >
+                {item.name}
+              </a>
+            ))}
+          </nav>
         </div>
 
         {/* Divider + bottom row */}
@@ -78,7 +53,6 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Sweep Property Plus. All rights reserved.
           </p>
         </div>
-
       </div>
     </footer>
   )

@@ -2,12 +2,15 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
-  { name: 'Services', href: '#services' },
   { name: 'About', href: '#about' },
+  { name: 'Services', href: '#services' },
+  { name: 'Why Us', href: '#why-us' },
+  { name: 'Industries', href: '#industries' },
   { name: 'Contact', href: '#contact' },
 ]
 
@@ -15,16 +18,16 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-40 border-b border-teal/10 bg-white shadow-sm">
+    <header className="border-teal/10 sticky top-0 z-40 border-b bg-white shadow-sm">
       <nav
         aria-label="Global"
         className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
       >
         {/* Logo */}
         <div className="flex lg:flex-1">
-          <a href="/" className="-m-1.5 p-1.5">
+          <Link href="/" className="-m-1.5 p-1.5">
             <Image
-              src="/updated-logo-colored.png"
+              src="/spp-logo-colored.png"
               alt="Sweep Property Plus"
               width={381}
               height={200}
@@ -32,7 +35,7 @@ export default function Navbar() {
               priority
               unoptimized
             />
-          </a>
+          </Link>
         </div>
 
         {/* Mobile menu button */}
@@ -40,7 +43,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            className="-m-2.5 inline-flex cursor-pointer items-center justify-center rounded-md p-2.5 text-teal"
+            className="text-teal -m-2.5 inline-flex cursor-pointer items-center justify-center rounded-md p-2.5"
           >
             <span className="sr-only">Open main menu</span>
             <Bars3Icon aria-hidden="true" className="size-6" />
@@ -53,10 +56,10 @@ export default function Navbar() {
             <a
               key={item.name}
               href={item.href}
-              className="group relative text-sm font-semibold text-teal-dark transition-colors hover:text-teal"
+              className="group text-teal-dark hover:text-teal relative text-sm font-semibold transition-colors"
             >
               {item.name}
-              <span className="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-gold transition-all duration-300 group-hover:w-full" />
+              <span className="bg-gold absolute -bottom-0.5 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
         </div>
@@ -65,7 +68,7 @@ export default function Navbar() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <a
             href="#contact"
-            className="rounded bg-gold px-4 py-2 text-sm font-semibold text-teal-dark shadow-sm transition-all duration-200 hover:brightness-110 active:brightness-95"
+            className="bg-gold text-teal-dark rounded px-4 py-2 text-sm font-semibold shadow-sm transition-all duration-200 hover:brightness-110 active:brightness-95"
           >
             Get a Quote
           </a>
@@ -74,26 +77,26 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
-        <div className="fixed inset-0 z-40 bg-teal-dark/20" aria-hidden="true" />
+        <div className="bg-teal-dark/20 fixed inset-0 z-40" aria-hidden="true" />
         <DialogPanel
           transition
-          className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 transition duration-300 ease-in-out data-closed:translate-x-full sm:max-w-sm sm:ring-1 sm:ring-teal/10"
+          className="sm:ring-teal/10 fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 transition duration-300 ease-in-out data-closed:translate-x-full sm:max-w-sm sm:ring-1"
         >
           <div className="flex items-center justify-between">
-            <a href="/" className="-m-1.5 p-1.5">
+            <Link href="/" className="-m-1.5 p-1.5">
               <Image
-                src="/updated-logo-colored.png"
+                src="/spp-logo-colored.png"
                 alt="Sweep Property Plus"
                 width={381}
                 height={200}
                 className="h-14 w-auto"
                 unoptimized
               />
-            </a>
+            </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
-              className="-m-2.5 cursor-pointer rounded-md p-2.5 text-teal"
+              className="text-teal -m-2.5 cursor-pointer rounded-md p-2.5"
             >
               <span className="sr-only">Close menu</span>
               <XMarkIcon aria-hidden="true" className="size-6" />
@@ -101,14 +104,14 @@ export default function Navbar() {
           </div>
 
           <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-teal/10">
+            <div className="divide-teal/10 -my-6 divide-y">
               <div className="space-y-1 py-6">
                 {navigation.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-teal-dark hover:bg-cream"
+                    className="text-teal-dark hover:bg-cream -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold"
                   >
                     {item.name}
                   </a>
@@ -118,7 +121,7 @@ export default function Navbar() {
                 <a
                   href="#contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block rounded bg-gold px-4 py-3 text-center text-base font-semibold text-teal-dark transition-all duration-200 hover:brightness-110"
+                  className="bg-gold text-teal-dark block rounded px-4 py-3 text-center text-base font-semibold transition-all duration-200 hover:brightness-110"
                 >
                   Get a Quote
                 </a>
