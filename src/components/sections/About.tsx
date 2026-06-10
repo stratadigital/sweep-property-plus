@@ -2,7 +2,27 @@
 
 import Image from 'next/image'
 import { motion } from 'motion/react'
+import {
+  BuildingOffice2Icon,
+  ClipboardDocumentCheckIcon,
+  ChatBubbleLeftRightIcon,
+} from '@heroicons/react/24/outline'
 import { staggerContainer, fadeUp, fadeUpContent, staggerItem, viewport } from '@/lib/animations'
+
+const points = [
+  {
+    icon: BuildingOffice2Icon,
+    text: 'Sweep Property Plus is a commercial cleaning company specializing in large facilities — office buildings, schools, retail centers, and multi-tenant complexes.',
+  },
+  {
+    icon: ClipboardDocumentCheckIcon,
+    text: 'We partner closely with property management teams throughout each engagement. After every shift, building management receives a daily report on what was completed.',
+  },
+  {
+    icon: ChatBubbleLeftRightIcon,
+    text: 'Clear communication is central to how we work. We stay in direct contact with facilities directors and property managers to make sure the work consistently reflects what each building requires.',
+  },
+]
 
 export default function About() {
   return (
@@ -31,37 +51,43 @@ export default function About() {
           </h2>
         </motion.div>
 
-        {/* Full-width photo band */}
-        <motion.div
-          variants={fadeUpContent}
-          className="relative mt-10 h-64 overflow-hidden rounded-xl shadow-sm sm:h-80 lg:mt-12 lg:h-[26rem]"
-        >
-          <Image
-            src="https://images.unsplash.com/photo-1567521464027-f127ff144326?auto=format&fit=crop&w=1600&q=80"
-            alt="Spotless commercial common area"
-            fill
-            sizes="(max-width: 1024px) 100vw, 1152px"
-            className="object-cover"
-          />
-        </motion.div>
-
-        {/* Prose — multi-column body */}
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3 lg:gap-12">
-          <motion.p variants={staggerItem} className="text-neutral-mid text-base leading-7">
-            Sweep Property Plus is a commercial cleaning company specializing in large facilities —
-            office buildings, schools, retail centers, and multi-tenant complexes.
-          </motion.p>
-          <motion.p variants={staggerItem} className="text-neutral-mid text-base leading-7">
-            We partner closely with property management teams throughout each engagement. After
-            every shift, building management receives a daily report on what was completed.
-          </motion.p>
-          <motion.p variants={staggerItem} className="text-neutral-mid text-base leading-7">
-            Clear communication is central to how we work. We stay in direct contact with facilities
-            directors and property managers to make sure the work consistently reflects what each
-            building requires.
-          </motion.p>
-        </div>
+        {/* Three points */}
+        <dl className="mt-12 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-3 lg:gap-x-12">
+          {points.map((point) => (
+            <motion.div key={point.text} variants={staggerItem} className="relative pl-9">
+              <dt aria-hidden="true">
+                <point.icon className="text-teal absolute top-1 left-0 size-5" />
+              </dt>
+              <dd className="text-neutral-mid text-base leading-7">{point.text}</dd>
+            </motion.div>
+          ))}
+        </dl>
       </motion.div>
+
+      {/* Large image, rising out of the section */}
+      <div className="relative mt-14 lg:mt-20">
+        <div className="mx-auto max-w-5xl px-6">
+          <motion.div
+            variants={fadeUpContent}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            className="ring-teal-dark/10 relative h-72 overflow-hidden rounded-xl shadow-2xl ring-1 sm:h-96 lg:h-[32rem]"
+          >
+            <Image
+              src="https://images.unsplash.com/photo-1505409859467-3a796fd5798e?auto=format&fit=crop&w=1600&q=80"
+              alt="Clean, modern office building interior"
+              fill
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              className="object-cover"
+            />
+            <div
+              aria-hidden="true"
+              className="from-cream pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b"
+            />
+          </motion.div>
+        </div>
+      </div>
 
       {/* Diagonal → Services (teal-dark) */}
       <div
