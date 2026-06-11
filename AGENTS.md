@@ -1,7 +1,9 @@
 <!-- BEGIN:nextjs-agent-rules -->
+
 # This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+
 <!-- END:nextjs-agent-rules -->
 
 ---
@@ -53,8 +55,8 @@ Catalyst depends on: `@headlessui/react`, `motion`, `clsx` (all installed).
 
 ## Environment Variables
 
-| Variable | Purpose |
-|---|---|
+| Variable                           | Purpose                    |
+| ---------------------------------- | -------------------------- |
 | `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` | Web3Forms contact form key |
 
 See `.env.example` for the full list. Copy to `.env.local` and fill in values.
@@ -64,6 +66,24 @@ See `.env.example` for the full list. Copy to `.env.local` and fill in values.
 ```bash
 npm run dev   # http://localhost:3000
 ```
+
+## Branches & Deployment
+
+Hosted on Vercel, deployed from GitHub. Branch = environment:
+
+| Branch      | Environment | `VERCEL_ENV` | URL                                   | Audience             |
+| ----------- | ----------- | ------------ | ------------------------------------- | -------------------- |
+| `main`      | Production  | `production` | live domain                           | public (post-launch) |
+| `staging`   | Preview     | `preview`    | `…-git-staging-….vercel.app` (stable) | client review        |
+| `feature/*` | Preview     | `preview`    | per-deploy preview URL                | dev only             |
+
+**Flow:** `feature/*` → merge to `staging` → client reviews the stable staging URL → merge `staging` → `main` (production). Never share a `feature/*` branch with the client; `staging` is the only branch that's always presentable.
+
+**Production branch** is set in Vercel under Settings → Environments → Production → Branch Tracking. Preview deployments are gated behind **Vercel Authentication** (Deployment Protection). `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` must be scoped to **Preview** as well as Production, or the quote form breaks on staging.
+
+**Indexing guard:** `src/app/robots.ts` and the `robots` field in `src/app/layout.tsx` both key off `process.env.VERCEL_ENV === 'production'`. Off-production deploys emit `Disallow: /` + `<meta name="robots" content="noindex">` so review URLs never get indexed. This is build-time, so it travels with each deployment's build.
+
+> ⚠️ The guard only opens up on a genuine production build of `main`. **Promoting a _preview_ build to production keeps the `noindex`** — ship production by pushing to `main`, not by promoting a preview. After launch, verify on the live domain: `/robots.txt` shows `Allow: /` and the HTML has no `noindex`.
 
 ## Prettier
 
