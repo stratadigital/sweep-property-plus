@@ -1,42 +1,28 @@
 'use client'
 
 import { motion } from 'motion/react'
-import { fadeUp, staggerContainer, rowItem, viewport, viewportEarly } from '@/lib/animations'
+import { fadeUp, staggerContainer, rowItem, viewportEarly } from '@/lib/animations'
 
 const services = [
   {
     number: '01',
-    name: 'Special Cleaning',
+    name: 'Cleaning Services',
     description:
-      'Targeted cleaning for high-traffic and hard-to-reach areas — the spots that need extra attention beyond the regular program.',
+      'Comprehensive cleaning programs for commercial and multi-tenant facilities — from routine maintenance to specialized deep cleaning. See our full cleaning programs below.',
   },
   {
     number: '02',
-    name: 'Deep Cleaning',
+    name: 'Concierge Services',
     description:
-      'Full top-to-bottom service that removes built-up dirt and grime — ideal for move-ins, inspections, or seasonal resets.',
+      'We streamline daily building operations — managing deliveries, coordinating appointments, and providing personalized on-site assistance to enhance convenience and productivity.',
   },
   {
     number: '03',
-    name: 'Carpet Cleaning & Shampooing',
+    name: 'Security Services',
     description:
-      'Professional extraction that lifts stains and allergens deep within fibers, extending the life of your flooring.',
-  },
-  {
-    number: '04',
-    name: 'Floor Scrubbing & Shining',
-    description:
-      'Machine scrubbing and polish that leaves hard floors spotless and gleaming — the kind of clean you can see.',
+      'Ensuring the safety of your premises is paramount. Our security services include monitoring, access control, and emergency response planning to safeguard your property and its occupants.',
   },
 ]
-
-const dayPorterPoints = [
-  'Continuous upkeep of restrooms, lobbies, and common areas',
-  'Restocking supplies and maintaining high-traffic spaces',
-  'Prompt response to spills, messes, or urgent cleaning needs',
-  'Ensuring your workspace always looks presentable for staff and visitors',
-]
-
 
 export default function Services() {
   return (
@@ -47,12 +33,11 @@ export default function Services() {
         aria-hidden="true"
         className="pointer-events-none absolute top-0 left-0 select-none text-[10rem] font-bold leading-none tracking-tighter text-white/5 lg:text-[20rem]"
       >
-        CLEAN
+        SERVE
       </span>
 
       <div className="relative z-1 mx-auto max-w-6xl px-6">
 
-        {/* Header + rows — one coordinated stagger so they reveal as a sequence */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -65,7 +50,7 @@ export default function Services() {
             </p>
             <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Services built for commercial spaces
+              Full-service facility management
             </h2>
           </motion.div>
 
@@ -90,48 +75,15 @@ export default function Services() {
           </div>
         </motion.div>
 
-        {/* Day Porter callout */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          className="mt-16 grid grid-cols-1 gap-8 border-t border-white/10 pt-14 lg:grid-cols-2 lg:gap-16"
-        >
-          {/* Left */}
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-gold">Day Porter</p>
-            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
-            <h3 className="mt-4 text-2xl font-semibold text-white">
-              A dedicated presence during business hours.
-            </h3>
-            <p className="mt-4 text-base leading-7 text-white/60">
-              While your regular cleaning program runs after hours, a Day Porter is on-site during
-              the workday — keeping your building presentable as people move through it. Five hours
-              a day, handled.
-            </p>
-          </div>
-
-          {/* Right — bullet points from brochure */}
-          <ul className="space-y-4 self-center">
-            {dayPorterPoints.map((point) => (
-              <li key={point} className="flex items-baseline gap-3">
-                <span className="size-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />
-                <span className="text-base leading-7 text-white/70">{point}</span>
-              </li>
-            ))}
-          </ul>
-        </motion.div>
-
       </div>
 
-      {/* Diagonal → WhyUs (white) */}
+      {/* Diagonal → Cleaning (cream) */}
       <div className="absolute bottom-0 left-0 z-2 w-full overflow-hidden leading-none" aria-hidden="true">
         <svg
           viewBox="0 0 1440 80"
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
-          className="block h-20 w-full fill-white"
+          className="block h-20 w-full fill-cream"
         >
           <polygon points="0,80 1440,0 1440,80" />
         </svg>
