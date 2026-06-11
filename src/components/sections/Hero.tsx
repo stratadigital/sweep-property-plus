@@ -52,12 +52,6 @@ export default function Hero() {
           >
             Get a Free Quote
           </a>
-          <a
-            href="#services"
-            className="rounded border border-white/40 px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:border-white hover:bg-white/10"
-          >
-            View Services
-          </a>
         </motion.div>
       </motion.div>
 

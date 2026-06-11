@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'motion/react'
-import { fadeUp, staggerContainer, rowItem, fadeUpContent, viewport, viewportEarly } from '@/lib/animations'
+import { fadeUp, staggerContainer, rowItem, viewport, viewportEarly } from '@/lib/animations'
 
 const services = [
   {
@@ -92,7 +92,7 @@ export default function Services() {
 
         {/* Day Porter callout */}
         <motion.div
-          variants={fadeUpContent}
+          variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={viewport}

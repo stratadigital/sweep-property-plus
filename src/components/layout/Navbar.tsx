@@ -43,7 +43,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            className="text-teal -m-2.5 inline-flex cursor-pointer items-center justify-center rounded-md p-2.5"
+            className="text-teal -m-2.5 inline-flex cursor-pointer items-center justify-center rounded p-2.5"
           >
             <span className="sr-only">Open main menu</span>
             <Bars3Icon aria-hidden="true" className="size-6" />
@@ -96,7 +96,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-teal -m-2.5 cursor-pointer rounded-md p-2.5"
+              className="text-teal -m-2.5 cursor-pointer rounded p-2.5"
             >
               <span className="sr-only">Close menu</span>
               <XMarkIcon aria-hidden="true" className="size-6" />
@@ -111,7 +111,7 @@ export default function Navbar() {
                     key={item.name}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="text-teal-dark hover:bg-cream -mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold"
+                    className="text-teal-dark hover:bg-cream -mx-3 block rounded px-3 py-2.5 text-base font-semibold"
                   >
                     {item.name}
                   </a>

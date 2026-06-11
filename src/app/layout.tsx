@@ -17,13 +17,11 @@ const isProduction = process.env.VERCEL_ENV === 'production'
 export const metadata: Metadata = {
   metadataBase: new URL('https://sweeppropertyplus.com'),
   title: 'Sweep Property Plus | Commercial Cleaning Services',
-  description:
-    'Professional commercial cleaning for offices and large buildings in Union, NJ and surrounding areas.',
+  description: 'Professional commercial cleaning for offices and large buildings.',
   robots: isProduction ? undefined : { index: false, follow: false },
   openGraph: {
     title: 'Sweep Property Plus | Commercial Cleaning Services',
-    description:
-      'Professional commercial cleaning for offices and large buildings in Union, NJ and surrounding areas.',
+    description: 'Professional commercial cleaning for offices and large buildings.',
     url: '/',
     siteName: 'Sweep Property Plus',
     type: 'website',
