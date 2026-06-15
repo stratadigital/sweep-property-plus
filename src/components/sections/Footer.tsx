@@ -24,7 +24,6 @@ export default function Footer() {
                 width={381}
                 height={200}
                 className="h-14 w-auto"
-                unoptimized
               />
             </Link>
             <p className="mt-4 text-sm leading-7 text-white/60">
@@ -49,7 +48,7 @@ export default function Footer() {
 
         {/* Divider + bottom row */}
         <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row sm:items-center">
-          <p className="text-xs text-white/40">
+          <p className="text-xs text-white/70">
             &copy; {new Date().getFullYear()} Sweep Property Plus. All rights reserved.
           </p>
         </div>
