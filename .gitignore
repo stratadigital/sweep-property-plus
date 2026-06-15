@@ -40,3 +40,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# stray Chrome/Lighthouse profile dirs (created when headless Chrome runs with a
+# Windows-style --user-data-dir under WSL; names look like C:\Users\...)
+/C:*
+**/lighthouse.*/
+*DevToolsActivePort*
