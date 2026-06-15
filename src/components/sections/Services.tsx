@@ -55,7 +55,7 @@ export default function Services() {
         aria-hidden="true"
         className="pointer-events-none absolute top-0 left-0 text-[10rem] leading-none font-bold tracking-tighter text-white/5 select-none lg:text-[20rem]"
       >
-        SERVE
+        MANAGE
       </span>
 
       <div className="relative z-1 mx-auto max-w-6xl px-6">
