@@ -1,10 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import Image from 'next/image'
-import * as Headless from '@headlessui/react'
 import { motion } from 'motion/react'
-import { XMarkIcon } from '@heroicons/react/24/solid'
 import {
   fadeUp,
   slideInLeft,
@@ -48,9 +45,6 @@ const services = [
 ]
 
 export default function Services() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
-  const active = activeIndex !== null ? services[activeIndex] : null
-
   return (
     <section
       id="services"
@@ -92,12 +86,9 @@ export default function Services() {
                 viewport={viewportTall}
                 className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-16"
               >
-                {/* Image — curtain reveal, hover zoom + caption, click to enlarge */}
-                <button
-                  type="button"
-                  onClick={() => setActiveIndex(index)}
-                  aria-label={`View ${service.name} larger`}
-                  className={`group focus-visible:ring-gold relative aspect-[4/3] cursor-pointer overflow-hidden rounded-xl focus:outline-none focus-visible:ring-2 ${
+                {/* Image — curtain reveal + subtle hover zoom/caption */}
+                <div
+                  className={`group relative aspect-[4/3] overflow-hidden rounded-xl ${
                     isReversed ? 'lg:order-2' : ''
                   }`}
                 >
@@ -125,7 +116,7 @@ export default function Services() {
                       {service.caption}
                     </p>
                   </div>
-                </button>
+                </div>
 
                 {/* Text */}
                 <motion.div
@@ -145,43 +136,6 @@ export default function Services() {
           })}
         </div>
       </div>
-
-      {/* Lightbox — full-bleed image modal (Headless UI, matches site dialog feel) */}
-      <Headless.Dialog
-        open={active !== null}
-        onClose={() => setActiveIndex(null)}
-        className="relative z-50"
-      >
-        <Headless.DialogBackdrop
-          transition
-          className="fixed inset-0 bg-black/80 transition duration-200 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in"
-        />
-        <div className="fixed inset-0 flex items-center justify-center p-4 sm:p-8">
-          <Headless.DialogPanel
-            transition
-            className="relative aspect-[3/2] w-full max-w-4xl overflow-hidden rounded-xl shadow-2xl transition duration-200 will-change-transform data-closed:scale-95 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in"
-          >
-            {active && (
-              <Image
-                src={active.image}
-                alt={active.alt}
-                fill
-                placeholder="blur"
-                sizes="(max-width: 1024px) 100vw, 896px"
-                className="object-cover"
-              />
-            )}
-            <button
-              type="button"
-              onClick={() => setActiveIndex(null)}
-              aria-label="Close"
-              className="bg-teal-dark/70 text-gold hover:bg-teal-dark focus-visible:ring-gold absolute top-3 right-3 rounded p-2 transition focus:outline-none focus-visible:ring-2"
-            >
-              <XMarkIcon className="size-5" aria-hidden="true" />
-            </button>
-          </Headless.DialogPanel>
-        </div>
-      </Headless.Dialog>
 
       {/* Diagonal → Cleaning (cream) */}
       <div
