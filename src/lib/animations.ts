@@ -74,3 +74,21 @@ export const fadeIn: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.5, ease } },
 }
+
+// ─── Curtain reveal — image uncovers as a panel wipes off (Services) ─────────
+// Echoes the diagonal-slice motif's left-to-right forward motion. Shares the
+// site ease and ~0.7s timing of slideInLeft so it reads as part of the set.
+// Both are direct children of the row's whileInView container.
+
+// Solid panel covering the image, then sliding off to the left (scaleX → 0).
+// Transform-only — Lighthouse-safe, no layout thrash.
+export const curtainPanel: Variants = {
+  hidden: { scaleX: 1 },
+  visible: { scaleX: 0, transition: { duration: 0.7, ease } },
+}
+
+// Image settling in under the panel — gentle zoom-out + fade.
+export const curtainImage: Variants = {
+  hidden: { opacity: 0, scale: 1.06 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.7, ease } },
+}

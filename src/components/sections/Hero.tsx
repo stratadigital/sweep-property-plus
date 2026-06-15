@@ -3,22 +3,27 @@
 import Image from 'next/image'
 import { motion } from 'motion/react'
 import { heroContainer, heroItem } from '@/lib/animations'
+import heroImg from '../../../public/images/hero.webp'
 
 export default function Hero() {
   return (
     <section className="relative flex min-h-[90vh] items-center pb-24">
       {/* Background image */}
       <Image
-        src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2070&q=80"
+        src={heroImg}
         alt=""
         fill
         priority
+        placeholder="blur"
         sizes="100vw"
         className="object-cover"
       />
 
       {/* Gradient overlay — darkens toward base of section for diagonal contrast */}
-      <div className="absolute inset-0 bg-linear-to-b from-teal/80 to-teal-dark/92" aria-hidden="true" />
+      <div
+        className="from-teal/80 to-teal-dark/92 absolute inset-0 bg-linear-to-b"
+        aria-hidden="true"
+      />
 
       {/* Content */}
       <motion.div
@@ -27,7 +32,10 @@ export default function Hero() {
         initial="hidden"
         animate="visible"
       >
-        <motion.p variants={heroItem} className="text-xs font-semibold uppercase tracking-widest text-gold">
+        <motion.p
+          variants={heroItem}
+          className="text-gold text-xs font-semibold tracking-widest uppercase"
+        >
           Commercial Cleaning Services
         </motion.p>
 
@@ -48,7 +56,7 @@ export default function Hero() {
         <motion.div variants={heroItem} className="mt-10 flex flex-wrap items-center gap-4">
           <a
             href="#contact"
-            className="rounded bg-gold px-6 py-3 text-sm font-semibold text-teal-dark shadow-sm transition-all duration-200 hover:brightness-110 active:brightness-95"
+            className="bg-gold text-teal-dark rounded px-6 py-3 text-sm font-semibold shadow-sm transition-all duration-200 hover:brightness-110 active:brightness-95"
           >
             Get a Free Quote
           </a>
@@ -56,12 +64,15 @@ export default function Hero() {
       </motion.div>
 
       {/* Diagonal → About (cream) */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none" aria-hidden="true">
+      <div
+        className="absolute bottom-0 left-0 w-full overflow-hidden leading-none"
+        aria-hidden="true"
+      >
         <svg
           viewBox="0 0 1440 80"
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
-          className="block h-20 w-full fill-cream"
+          className="fill-cream block h-20 w-full"
         >
           <polygon points="0,80 1440,0 1440,80" />
         </svg>
