@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import aboutImg from '../../../public/images/about.webp'
 import { motion } from 'motion/react'
 import {
   BuildingOffice2Icon,
@@ -80,9 +81,10 @@ export default function About() {
             className="ring-teal-dark/10 relative h-72 overflow-hidden rounded-xl shadow-2xl ring-1 sm:h-96 lg:h-[32rem]"
           >
             <Image
-              src="https://images.unsplash.com/photo-1505409859467-3a796fd5798e?auto=format&fit=crop&w=1600&q=80"
+              src={aboutImg}
               alt="Clean, modern office building interior"
               fill
+              placeholder="blur"
               sizes="(max-width: 1024px) 100vw, 1024px"
               className="object-cover"
             />
