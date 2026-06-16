@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import aboutImg from '../../../public/images/office-lobby.jpg'
+import aboutImg from '../../../public/images/cleaning-1.png'
 import { motion } from 'motion/react'
 import {
   BuildingOffice2Icon,
