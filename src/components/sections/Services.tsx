@@ -10,16 +10,16 @@ import {
   curtainImage,
   viewportTall,
 } from '@/lib/animations'
-import cleaningImg from '../../../public/images/services/cleaning.webp'
-import conciergeImg from '../../../public/images/services/concierge.webp'
-import securityImg from '../../../public/images/services/security.webp'
+import cleaningImg from '../../../public/images/cleaning-2.png'
+import conciergeImg from '../../../public/images/concierge-1.png'
+import securityImg from '../../../public/images/security-guard-2.png'
 
 const services = [
   {
     number: '01',
     name: 'Cleaning Services',
     description:
-      'Comprehensive cleaning programs for commercial and multi-tenant facilities — from routine maintenance to specialized deep cleaning. See our full cleaning programs below.',
+      'Routine maintenance, deep cleaning, carpet care, and floor scrubbing — tailored programs for commercial and multi-tenant facilities. Day porter services keep your building presentable throughout the workday.',
     image: cleaningImg,
     alt: 'Gloved hand wiping down a desk in a commercial office',
     caption: 'Daily upkeep',
@@ -137,7 +137,7 @@ export default function Services() {
         </div>
       </div>
 
-      {/* Diagonal → Cleaning (cream) */}
+      {/* Diagonal → WhyUs (white) */}
       <div
         className="absolute bottom-0 left-0 z-2 w-full overflow-hidden leading-none"
         aria-hidden="true"
@@ -146,7 +146,7 @@ export default function Services() {
           viewBox="0 0 1440 80"
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
-          className="fill-cream block h-20 w-full"
+          className="fill-white block h-20 w-full"
         >
           <polygon points="0,80 1440,0 1440,80" />
         </svg>

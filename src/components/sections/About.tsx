@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import aboutImg from '../../../public/images/about.webp'
+import aboutImg from '../../../public/images/office-lobby.jpg'
 import { motion } from 'motion/react'
 import {
   BuildingOffice2Icon,

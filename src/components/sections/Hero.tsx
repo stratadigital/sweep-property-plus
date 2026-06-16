@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { motion } from 'motion/react'
 import { heroContainer, heroItem } from '@/lib/animations'
-import heroImg from '../../../public/images/hero.webp'
+import heroImg from '../../../public/images/hero-image.png'
 
 export default function Hero() {
   return (
