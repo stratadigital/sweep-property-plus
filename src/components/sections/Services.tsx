@@ -1,13 +1,16 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'motion/react'
+import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import {
   fadeUp,
   slideInLeft,
   slideInRight,
   curtainPanel,
   curtainImage,
+  viewport,
   viewportTall,
 } from '@/lib/animations'
 import cleaningImg from '../../../public/images/cleaning-2.png'
@@ -135,6 +138,25 @@ export default function Services() {
             )
           })}
         </div>
+
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="mt-16 lg:mt-20"
+        >
+          <Link
+            href="/services"
+            className="bg-gold text-teal-dark group inline-flex items-center gap-2 rounded px-5 py-3 text-sm font-semibold shadow-sm transition-all duration-200 hover:brightness-110 active:brightness-95"
+          >
+            View all services
+            <ArrowRightIcon
+              aria-hidden="true"
+              className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
+            />
+          </Link>
+        </motion.div>
       </div>
 
       {/* Diagonal → WhyUs (white) */}
@@ -146,7 +168,7 @@ export default function Services() {
           viewBox="0 0 1440 80"
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
-          className="fill-white block h-20 w-full"
+          className="block h-20 w-full fill-white"
         >
           <polygon points="0,80 1440,0 1440,80" />
         </svg>

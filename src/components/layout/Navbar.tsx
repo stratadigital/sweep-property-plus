@@ -7,11 +7,11 @@ import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
-  { name: 'About', href: '#about' },
-  { name: 'Services', href: '#services' },
-  { name: 'Why Us', href: '#why-us' },
-  { name: 'Industries', href: '#industries' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'About', href: '/#about' },
+  { name: 'Services', href: '/#services' },
+  { name: 'Why Us', href: '/#why-us' },
+  { name: 'Industries', href: '/#industries' },
+  { name: 'Contact', href: '/#contact' },
 ]
 
 export default function Navbar() {
@@ -65,12 +65,12 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a
-            href="#contact"
+          <Link
+            href="/#contact"
             className="bg-gold text-teal-dark rounded px-4 py-2 text-sm font-semibold shadow-sm transition-all duration-200 hover:brightness-110 active:brightness-95"
           >
             Get a Quote
-          </a>
+          </Link>
         </div>
       </nav>
 
@@ -116,13 +116,13 @@ export default function Navbar() {
                 ))}
               </div>
               <div className="py-6">
-                <a
-                  href="#contact"
+                <Link
+                  href="/#contact"
                   onClick={() => setMobileMenuOpen(false)}
                   className="bg-gold text-teal-dark block rounded px-4 py-3 text-center text-base font-semibold transition-all duration-200 hover:brightness-110"
                 >
                   Get a Quote
-                </a>
+                </Link>
               </div>
             </div>
           </div>

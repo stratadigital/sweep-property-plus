@@ -2,11 +2,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const navigation = [
-  { name: 'About', href: '#about' },
-  { name: 'Services', href: '#services' },
-  { name: 'Why Us', href: '#why-us' },
-  { name: 'Industries', href: '#industries' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'About', href: '/#about' },
+  { name: 'Services', href: '/#services' },
+  { name: 'Why Us', href: '/#why-us' },
+  { name: 'Industries', href: '/#industries' },
+  { name: 'Contact', href: '/#contact' },
 ]
 
 export default function Footer() {
