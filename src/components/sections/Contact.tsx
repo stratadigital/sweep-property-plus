@@ -38,19 +38,20 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="relative overflow-hidden bg-white pb-32 pt-20 lg:pb-40 lg:pt-28">
-
+    <section
+      id="contact"
+      className="relative overflow-hidden bg-white pt-20 pb-32 lg:pt-28 lg:pb-40"
+    >
       {/* Ghost text — section-level backdrop */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute top-0 left-0 select-none text-[10rem] font-bold leading-none tracking-tighter text-teal/7 lg:text-[20rem]"
+        className="text-teal/7 pointer-events-none absolute top-0 left-0 text-[10rem] leading-none font-bold tracking-tighter select-none lg:text-[20rem]"
       >
         CONTACT
       </span>
 
       <div className="relative z-1 mx-auto max-w-6xl px-6">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
-
           {/* Left — info */}
           <motion.div
             variants={slideInLeft}
@@ -58,25 +59,33 @@ export default function Contact() {
             whileInView="visible"
             viewport={viewport}
           >
-            <p className="text-gold-dark text-xs font-semibold uppercase tracking-widest">
+            <p className="text-gold-dark text-xs font-semibold tracking-widest uppercase">
               Get in Touch
             </p>
-            <div className="mt-3 h-0.5 w-10 bg-gold" aria-hidden="true" />
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-teal-dark sm:text-4xl">
+            <div className="bg-gold mt-3 h-0.5 w-10" aria-hidden="true" />
+            <h2 className="text-teal-dark mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
               Let&rsquo;s talk about your space.
             </h2>
-            <p className="mt-6 text-base leading-7 text-neutral-mid">
-              Tell us about your building and what you need. We&rsquo;ll be in touch to discuss
-              a cleaning program for your facility.
+            <p className="text-neutral-mid mt-6 text-base leading-7">
+              Tell us about your building and what you need. We&rsquo;ll be in touch to discuss a
+              cleaning program for your facility.
             </p>
 
-            <div className="mt-10 space-y-3 text-sm text-neutral-mid">
+            <div className="text-neutral-mid mt-10 space-y-3 text-sm">
               <p>
-                <span className="font-semibold text-teal-dark">Email:</span>{' '}
-                info@sweeppropertyplus.com
+                <span className="text-teal-dark font-semibold">Email:</span>{' '}
+                <a
+                  href="mailto:info@sweeproperty.com"
+                  className="hover:text-teal transition-colors"
+                >
+                  info@sweeproperty.com
+                </a>
               </p>
               <p>
-                <span className="font-semibold text-teal-dark">Phone:</span> (908) 555-0100
+                <span className="text-teal-dark font-semibold">Phone:</span>{' '}
+                <a href="tel:+17327028440" className="hover:text-teal transition-colors">
+                  (732) 702-8440
+                </a>
               </p>
             </div>
           </motion.div>
@@ -89,38 +98,41 @@ export default function Contact() {
             viewport={viewport}
           >
             {status === 'success' ? (
-              <div className="flex h-full flex-col items-start justify-center rounded-xl bg-cream p-10 shadow-sm">
-                <CheckCircleIcon className="mb-4 size-12 text-teal" aria-hidden="true" />
-                <h3 className="text-xl font-semibold text-teal-dark">Request received.</h3>
-                <p className="mt-3 text-base leading-7 text-neutral-mid">
-                  Thank you for reaching out. We&rsquo;ll be in touch within one business day with
-                  a proposal for your space.
+              <div className="bg-cream flex h-full flex-col items-start justify-center rounded-xl p-10 shadow-sm">
+                <CheckCircleIcon className="text-teal mb-4 size-12" aria-hidden="true" />
+                <h3 className="text-teal-dark text-xl font-semibold">Request received.</h3>
+                <p className="text-neutral-mid mt-3 text-base leading-7">
+                  Thank you for reaching out. We&rsquo;ll be in touch within one business day with a
+                  proposal for your space.
                 </p>
                 <button
                   onClick={() => setStatus('idle')}
-                  className="mt-8 cursor-pointer text-sm font-semibold text-teal underline-offset-2 hover:underline"
+                  className="text-teal mt-8 cursor-pointer text-sm font-semibold underline-offset-2 hover:underline"
                 >
                   Send another request
                 </button>
               </div>
             ) : (
-              <form
-                onSubmit={handleSubmit}
-                className="rounded-xl bg-cream p-8 shadow-sm lg:p-10"
-                noValidate
-              >
+              <form onSubmit={handleSubmit} className="bg-cream rounded-xl p-8 shadow-sm lg:p-10">
                 <input
                   type="hidden"
                   name="access_key"
                   value={process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ?? ''}
                 />
-                <input type="hidden" name="subject" value="New Quote Request — Sweep Property Plus" />
+                <input
+                  type="hidden"
+                  name="subject"
+                  value="New Quote Request — Sweep Property Plus"
+                />
                 <input type="checkbox" name="botcheck" className="hidden" />
 
                 <div className="space-y-5">
                   <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
-                      <label htmlFor="name" className="mb-1.5 block text-sm font-semibold text-teal-dark">
+                      <label
+                        htmlFor="name"
+                        className="text-teal-dark mb-1.5 block text-sm font-semibold"
+                      >
                         Name <span className="text-gold-dark">*</span>
                       </label>
                       <input
@@ -129,11 +141,14 @@ export default function Contact() {
                         type="text"
                         required
                         placeholder="Your name"
-                        className="w-full rounded border border-teal/20 bg-white px-4 py-3 text-sm text-neutral-dark placeholder:text-neutral-mid transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15"
+                        className="border-teal/20 text-neutral-dark placeholder:text-neutral-mid focus:border-teal focus:ring-teal/15 w-full rounded border bg-white px-4 py-3 text-sm transition-colors focus:ring-2 focus:outline-none"
                       />
                     </div>
                     <div>
-                      <label htmlFor="company" className="mb-1.5 block text-sm font-semibold text-teal-dark">
+                      <label
+                        htmlFor="company"
+                        className="text-teal-dark mb-1.5 block text-sm font-semibold"
+                      >
                         Company
                       </label>
                       <input
@@ -141,13 +156,16 @@ export default function Contact() {
                         name="company"
                         type="text"
                         placeholder="Your company"
-                        className="w-full rounded border border-teal/20 bg-white px-4 py-3 text-sm text-neutral-dark placeholder:text-neutral-mid transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15"
+                        className="border-teal/20 text-neutral-dark placeholder:text-neutral-mid focus:border-teal focus:ring-teal/15 w-full rounded border bg-white px-4 py-3 text-sm transition-colors focus:ring-2 focus:outline-none"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="mb-1.5 block text-sm font-semibold text-teal-dark">
+                    <label
+                      htmlFor="email"
+                      className="text-teal-dark mb-1.5 block text-sm font-semibold"
+                    >
                       Email <span className="text-gold-dark">*</span>
                     </label>
                     <input
@@ -156,25 +174,31 @@ export default function Contact() {
                       type="email"
                       required
                       placeholder="you@company.com"
-                      className="w-full rounded border border-teal/20 bg-white px-4 py-3 text-sm text-neutral-dark placeholder:text-neutral-mid transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15"
+                      className="border-teal/20 text-neutral-dark placeholder:text-neutral-mid focus:border-teal focus:ring-teal/15 w-full rounded border bg-white px-4 py-3 text-sm transition-colors focus:ring-2 focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="phone" className="mb-1.5 block text-sm font-semibold text-teal-dark">
+                    <label
+                      htmlFor="phone"
+                      className="text-teal-dark mb-1.5 block text-sm font-semibold"
+                    >
                       Phone
                     </label>
                     <input
                       id="phone"
                       name="phone"
                       type="tel"
-                      placeholder="(908) 555-0100"
-                      className="w-full rounded border border-teal/20 bg-white px-4 py-3 text-sm text-neutral-dark placeholder:text-neutral-mid transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15"
+                      placeholder="(201) 555-0123"
+                      className="border-teal/20 text-neutral-dark placeholder:text-neutral-mid focus:border-teal focus:ring-teal/15 w-full rounded border bg-white px-4 py-3 text-sm transition-colors focus:ring-2 focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="facility_type" className="mb-1.5 block text-sm font-semibold text-teal-dark">
+                    <label
+                      htmlFor="facility_type"
+                      className="text-teal-dark mb-1.5 block text-sm font-semibold"
+                    >
                       Facility Type
                     </label>
                     <select
@@ -182,11 +206,13 @@ export default function Contact() {
                       name="facility_type"
                       value={facilityType}
                       onChange={(e) => setFacilityType(e.target.value)}
-                      className={`w-full rounded border border-teal/20 bg-white px-4 py-3 text-sm transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15 ${
+                      className={`border-teal/20 focus:border-teal focus:ring-teal/15 w-full rounded border bg-white px-4 py-3 text-sm transition-colors focus:ring-2 focus:outline-none ${
                         facilityType === '' ? 'text-neutral-mid' : 'text-neutral-dark'
                       }`}
                     >
-                      <option value="" disabled>Select facility type</option>
+                      <option value="" disabled>
+                        Select facility type
+                      </option>
                       <option value="Office Building">Office Building</option>
                       <option value="School / University">School / University</option>
                       <option value="Retail / Shopping Center">Retail / Shopping Center</option>
@@ -196,7 +222,10 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="mb-1.5 block text-sm font-semibold text-teal-dark">
+                    <label
+                      htmlFor="message"
+                      className="text-teal-dark mb-1.5 block text-sm font-semibold"
+                    >
                       Tell us about your space <span className="text-gold-dark">*</span>
                     </label>
                     <textarea
@@ -205,7 +234,7 @@ export default function Contact() {
                       required
                       rows={5}
                       placeholder="Square footage, services needed, preferred schedule..."
-                      className="w-full resize-none rounded border border-teal/20 bg-white px-4 py-3 text-sm text-neutral-dark placeholder:text-neutral-mid transition-colors focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15"
+                      className="border-teal/20 text-neutral-dark placeholder:text-neutral-mid focus:border-teal focus:ring-teal/15 w-full resize-none rounded border bg-white px-4 py-3 text-sm transition-colors focus:ring-2 focus:outline-none"
                     />
                   </div>
 
@@ -218,7 +247,7 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={status === 'submitting'}
-                    className="w-full cursor-pointer rounded bg-gold py-3 text-sm font-semibold text-teal-dark shadow-sm transition-all duration-200 hover:brightness-110 active:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="bg-gold text-teal-dark w-full cursor-pointer rounded py-3 text-sm font-semibold shadow-sm transition-all duration-200 hover:brightness-110 active:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {status === 'submitting' ? 'Sending…' : 'Request a Free Quote'}
                   </button>
@@ -226,17 +255,19 @@ export default function Contact() {
               </form>
             )}
           </motion.div>
-
         </div>
       </div>
 
       {/* Diagonal → Footer (teal-dark) */}
-      <div className="absolute bottom-0 left-0 z-2 w-full overflow-hidden leading-none" aria-hidden="true">
+      <div
+        className="absolute bottom-0 left-0 z-2 w-full overflow-hidden leading-none"
+        aria-hidden="true"
+      >
         <svg
           viewBox="0 0 1440 80"
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
-          className="block h-20 w-full fill-teal-dark"
+          className="fill-teal-dark block h-20 w-full"
         >
           <polygon points="0,80 1440,0 1440,80" />
         </svg>

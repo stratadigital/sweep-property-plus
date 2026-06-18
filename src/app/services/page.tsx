@@ -2,19 +2,19 @@ import type { Metadata } from 'next'
 import ServicesHero from '@/components/sections/ServicesHero'
 import ServiceSection from '@/components/sections/ServiceSection'
 import ServicesCTA from '@/components/sections/ServicesCTA'
-import cleaningImg from '../../../public/images/cleaning-3.png'
-import conciergeImg from '../../../public/images/concierge-2.png'
-import securityImg from '../../../public/images/security-guard-4.png'
+import cleaningImg from '../../../public/images/cleaning-3.webp'
+import conciergeImg from '../../../public/images/concierge-2.webp'
+import securityImg from '../../../public/images/security-guard-4.webp'
 
 export const metadata: Metadata = {
   title: 'Services | Sweep Property Plus',
   description:
-    'Cleaning, concierge, and security services for commercial and multi-tenant buildings in Union, NJ and the surrounding area.',
+    'Cleaning, concierge, and security services for commercial and multi-tenant buildings across New York and New Jersey.',
   alternates: { canonical: '/services' },
   openGraph: {
     title: 'Services | Sweep Property Plus',
     description:
-      'Cleaning, concierge, and security services for commercial and multi-tenant buildings in Union, NJ and the surrounding area.',
+      'Cleaning, concierge, and security services for commercial and multi-tenant buildings across New York and New Jersey.',
     url: '/services',
     siteName: 'Sweep Property Plus',
     type: 'website',

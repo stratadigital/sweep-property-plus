@@ -1,6 +1,6 @@
 {
-  "name": "SPP",
-  "short_name": "SPP",
+  "name": "Sweep Property Plus",
+  "short_name": "Sweep Property",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -15,7 +15,7 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "theme_color": "#337068",
+  "background_color": "#F7F2EA",
   "display": "standalone"
 }

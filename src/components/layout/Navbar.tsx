@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
@@ -16,6 +17,18 @@ const navigation = [
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
+
+  // When already on the landing page, a Link to "/" won't move (Next sees the
+  // same path, even with a lingering #hash). Scroll to top manually instead.
+  function handleLogoClick(e: React.MouseEvent) {
+    setMobileMenuOpen(false)
+    if (pathname === '/') {
+      e.preventDefault()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      history.replaceState(null, '', '/')
+    }
+  }
 
   return (
     <header className="border-teal/10 sticky top-0 z-40 border-b bg-white shadow-sm">
@@ -25,7 +38,7 @@ export default function Navbar() {
       >
         {/* Logo */}
         <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5">
+          <Link href="/" onClick={handleLogoClick} className="-m-1.5 p-1.5">
             <Image
               src="/spp-logo-colored.png"
               alt="Sweep Property Plus"
@@ -82,7 +95,7 @@ export default function Navbar() {
           className="sm:ring-teal/10 fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 transition duration-300 ease-in-out data-closed:translate-x-full sm:max-w-sm sm:ring-1"
         >
           <div className="flex items-center justify-between">
-            <Link href="/" className="-m-1.5 p-1.5">
+            <Link href="/" onClick={handleLogoClick} className="-m-1.5 p-1.5">
               <Image
                 src="/spp-logo-colored.png"
                 alt="Sweep Property Plus"

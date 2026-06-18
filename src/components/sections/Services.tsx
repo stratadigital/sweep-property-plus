@@ -13,9 +13,9 @@ import {
   viewport,
   viewportTall,
 } from '@/lib/animations'
-import cleaningImg from '../../../public/images/cleaning-2.png'
-import conciergeImg from '../../../public/images/concierge-1.png'
-import securityImg from '../../../public/images/security-guard-2.png'
+import cleaningImg from '../../../public/images/cleaning-2.webp'
+import conciergeImg from '../../../public/images/concierge-1.webp'
+import securityImg from '../../../public/images/security-guard-2.webp'
 
 const services = [
   {
