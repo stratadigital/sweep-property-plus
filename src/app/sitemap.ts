@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 // metadataBase (layout.tsx) supplies the absolute origin for these paths.
-const baseUrl = 'https://sweeproperty.com'
+const baseUrl = 'https://www.sweeproperty.com'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

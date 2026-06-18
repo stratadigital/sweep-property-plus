@@ -15,7 +15,7 @@ const spaceGrotesk = Space_Grotesk({
 const isProduction = process.env.VERCEL_ENV === 'production'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://sweeproperty.com'),
+  metadataBase: new URL('https://www.sweeproperty.com'),
   title: 'Sweep Property Plus | Commercial Cleaning Services',
   description: 'Professional commercial cleaning for offices and large buildings.',
   alternates: { canonical: '/' },
@@ -42,7 +42,7 @@ const businessJsonLd = {
   '@type': 'LocalBusiness',
   name: 'Sweep Property Plus',
   description: 'Professional commercial cleaning for offices and large buildings.',
-  url: 'https://sweeproperty.com',
+  url: 'https://www.sweeproperty.com',
   email: 'info@sweeproperty.com',
   telephone: '+1-732-702-8440',
   address: {
