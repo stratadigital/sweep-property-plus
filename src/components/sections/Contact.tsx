@@ -18,11 +18,14 @@ export default function Contact() {
 
     const form = e.currentTarget
     const data = new FormData(form)
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 10000)
 
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         body: data,
+        signal: controller.signal,
       })
       const json = await res.json()
       if (json.success) {
@@ -34,6 +37,8 @@ export default function Contact() {
       }
     } catch {
       setStatus('error')
+    } finally {
+      clearTimeout(timeout)
     }
   }
 
@@ -96,14 +101,14 @@ export default function Contact() {
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
+            className="bg-cream rounded-xl shadow-sm"
           >
             {status === 'success' ? (
-              <div className="bg-cream flex h-full flex-col items-start justify-center rounded-xl p-10 shadow-sm">
+              <div className="flex min-h-[520px] flex-col items-start justify-center p-8 lg:p-10">
                 <CheckCircleIcon className="text-teal mb-4 size-12" aria-hidden="true" />
                 <h3 className="text-teal-dark text-xl font-semibold">Request received.</h3>
                 <p className="text-neutral-mid mt-3 text-base leading-7">
-                  Thank you for reaching out. We&rsquo;ll be in touch within one business day with a
-                  proposal for your space.
+                  Thank you for reaching out. We&rsquo;ll be in touch soon to discuss your space.
                 </p>
                 <button
                   onClick={() => setStatus('idle')}
@@ -113,7 +118,7 @@ export default function Contact() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="bg-cream rounded-xl p-8 shadow-sm lg:p-10">
+              <form onSubmit={handleSubmit} className="p-8 lg:p-10">
                 <input
                   type="hidden"
                   name="access_key"
@@ -240,7 +245,11 @@ export default function Contact() {
 
                   {status === 'error' && (
                     <p className="text-error text-sm font-medium">
-                      Something went wrong. Please try again or email us directly.
+                      Something went wrong. Please try again or{' '}
+                      <a href="mailto:info@sweeproperty.com" className="underline underline-offset-2">
+                        email us directly
+                      </a>
+                      .
                     </p>
                   )}
 
