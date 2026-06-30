@@ -16,6 +16,24 @@ interface ContactBody {
   botcheck?: boolean
 }
 
+function isLikelyBot(req: NextRequest, body: ContactBody): boolean {
+  // Honeypot — bots that blindly fill all inputs will check this box
+  if (body.botcheck) return true
+
+  // Origin must match the request host — blocks scripts POSTing directly to the
+  // endpoint without going through the site (the browser always sets this correctly)
+  const origin = req.headers.get('origin')
+  const host = req.headers.get('host')
+  if (!origin || !host) return true
+  try {
+    if (new URL(origin).host !== host) return true
+  } catch {
+    return true
+  }
+
+  return false
+}
+
 export async function POST(req: NextRequest) {
   let body: ContactBody
   try {
@@ -24,10 +42,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
   }
 
-  const { name, email, company, phone, facility_type, message, botcheck } = body
+  // Silently succeed so bots think they got through
+  if (isLikelyBot(req, body)) return NextResponse.json({ success: true })
 
-  // Honeypot — silently succeed so bots think they got through
-  if (botcheck) return NextResponse.json({ success: true })
+  const { name, email, company, phone, facility_type, message } = body
 
   if (!name?.trim() || !email?.trim() || !message?.trim()) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })

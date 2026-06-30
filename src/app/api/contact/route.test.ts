@@ -27,10 +27,13 @@ const VALID_BODY = {
   botcheck: false,
 }
 
-function makeRequest(body: unknown) {
+function makeRequest(body: unknown, { origin = 'http://localhost' }: { origin?: string | null } = {}) {
+  // Host must be set explicitly — NextRequest doesn't auto-set it like a real HTTP server does
+  const headers: Record<string, string> = { 'Content-Type': 'application/json', Host: 'localhost' }
+  if (origin !== null) headers['Origin'] = origin
   return new NextRequest('http://localhost/api/contact', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify(body),
   })
 }
@@ -73,12 +76,24 @@ describe('POST /api/contact', () => {
     })
   })
 
-  describe('honeypot', () => {
-    it('silently returns success without sending emails when botcheck is true', async () => {
+  describe('spam protection', () => {
+    it('silently succeeds without sending when botcheck is true', async () => {
       const res = await POST(makeRequest({ ...VALID_BODY, botcheck: true }))
       const json = await res.json()
       expect(res.status).toBe(200)
       expect(json.success).toBe(true)
+      expect(mockSend).not.toHaveBeenCalled()
+    })
+
+    it('silently succeeds without sending when Origin header is absent', async () => {
+      const res = await POST(makeRequest(VALID_BODY, { origin: null }))
+      expect(res.status).toBe(200)
+      expect(mockSend).not.toHaveBeenCalled()
+    })
+
+    it('silently succeeds without sending when Origin does not match host', async () => {
+      const res = await POST(makeRequest(VALID_BODY, { origin: 'https://attacker.com' }))
+      expect(res.status).toBe(200)
       expect(mockSend).not.toHaveBeenCalled()
     })
   })
