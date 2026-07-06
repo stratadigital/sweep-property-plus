@@ -3,7 +3,7 @@ import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-const FROM = 'noreply@sweeproperty.com'
+const FROM = 'Sweep Property Plus <noreply@sweeproperty.com>'
 const CLIENT_EMAIL = 'info@sweeproperty.com'
 
 interface ContactBody {

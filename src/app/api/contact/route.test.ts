@@ -27,7 +27,10 @@ const VALID_BODY = {
   botcheck: false,
 }
 
-function makeRequest(body: unknown, { origin = 'http://localhost' }: { origin?: string | null } = {}) {
+function makeRequest(
+  body: unknown,
+  { origin = 'http://localhost' }: { origin?: string | null } = {}
+) {
   // Host must be set explicitly — NextRequest doesn't auto-set it like a real HTTP server does
   const headers: Record<string, string> = { 'Content-Type': 'application/json', Host: 'localhost' }
   if (origin !== null) headers['Origin'] = origin
@@ -110,7 +113,10 @@ describe('POST /api/contact', () => {
   describe('Resend errors', () => {
     it('returns 500 when the notification email fails', async () => {
       mockSend
-        .mockResolvedValueOnce({ data: null, error: { message: 'Invalid API key', name: 'validation_error' } })
+        .mockResolvedValueOnce({
+          data: null,
+          error: { message: 'Invalid API key', name: 'validation_error' },
+        })
         .mockResolvedValueOnce({ data: { id: 'email-abc-123' }, error: null })
 
       const res = await POST(makeRequest(VALID_BODY))
@@ -120,7 +126,10 @@ describe('POST /api/contact', () => {
     it('returns 500 when the auto-reply email fails', async () => {
       mockSend
         .mockResolvedValueOnce({ data: { id: 'email-abc-123' }, error: null })
-        .mockResolvedValueOnce({ data: null, error: { message: 'Rate limit exceeded', name: 'rate_limit_exceeded' } })
+        .mockResolvedValueOnce({
+          data: null,
+          error: { message: 'Rate limit exceeded', name: 'rate_limit_exceeded' },
+        })
 
       const res = await POST(makeRequest(VALID_BODY))
       expect(res.status).toBe(500)
@@ -144,7 +153,7 @@ describe('POST /api/contact', () => {
       await POST(makeRequest(VALID_BODY))
       const [notification] = mockSend.mock.calls
       expect(notification[0]).toMatchObject({
-        from: 'noreply@sweeproperty.com',
+        from: 'Sweep Property Plus <noreply@sweeproperty.com>',
         to: 'notifications@example.com',
         replyTo: VALID_BODY.email,
       })
@@ -154,18 +163,20 @@ describe('POST /api/contact', () => {
       await POST(makeRequest(VALID_BODY))
       const [, autoReply] = mockSend.mock.calls
       expect(autoReply[0]).toMatchObject({
-        from: 'noreply@sweeproperty.com',
+        from: 'Sweep Property Plus <noreply@sweeproperty.com>',
         to: VALID_BODY.email,
         replyTo: 'info@sweeproperty.com',
       })
     })
 
     it('works with only the three required fields (all optional fields absent)', async () => {
-      const res = await POST(makeRequest({
-        name: VALID_BODY.name,
-        email: VALID_BODY.email,
-        message: VALID_BODY.message,
-      }))
+      const res = await POST(
+        makeRequest({
+          name: VALID_BODY.name,
+          email: VALID_BODY.email,
+          message: VALID_BODY.message,
+        })
+      )
       expect(res.status).toBe(200)
     })
   })
