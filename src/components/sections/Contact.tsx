@@ -22,9 +22,18 @@ export default function Contact() {
     const timeout = setTimeout(() => controller.abort(), 10000)
 
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        body: data,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.get('name'),
+          email: data.get('email'),
+          company: data.get('company'),
+          phone: data.get('phone'),
+          facility_type: data.get('facility_type'),
+          message: data.get('message'),
+          botcheck: data.get('botcheck') === 'on',
+        }),
         signal: controller.signal,
       })
       const json = await res.json()
@@ -119,17 +128,8 @@ export default function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="p-8 lg:p-10">
-                <input
-                  type="hidden"
-                  name="access_key"
-                  value={process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ?? ''}
-                />
-                <input
-                  type="hidden"
-                  name="subject"
-                  value="New Quote Request — Sweep Property Plus"
-                />
-                <input type="checkbox" name="botcheck" className="hidden" />
+                {/* Honeypot — bots fill this in, humans don't */}
+                <input type="checkbox" name="botcheck" className="hidden" aria-hidden="true" />
 
                 <div className="space-y-5">
                   <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
