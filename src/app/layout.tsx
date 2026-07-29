@@ -49,10 +49,10 @@ const businessJsonLd = {
   telephone: '+1-732-702-8440',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: '15 E Midland Ave, Suite 2',
-    addressLocality: 'Paramus',
+    streetAddress: '180 Summit Ave, Unit 202',
+    addressLocality: 'Montvale',
     addressRegion: 'NJ',
-    postalCode: '07652',
+    postalCode: '07645',
     addressCountry: 'US',
   },
   areaServed: [

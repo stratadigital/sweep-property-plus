@@ -16,6 +16,17 @@ interface ContactBody {
   botcheck?: boolean
 }
 
+// The browser's type="email" is client-side only and trivially bypassed. This
+// keeps malformed addresses from reaching Resend, where they'd fail at send time
+// and surface to the user as a generic 500. Deliberately permissive — the goal is
+// to reject obvious junk, not to adjudicate RFC 5322.
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/
+
+// 254 is the maximum length of a forward path in RFC 5321
+function isValidEmail(value: string): boolean {
+  return value.length <= 254 && EMAIL_PATTERN.test(value)
+}
+
 function isLikelyBot(req: NextRequest, body: ContactBody): boolean {
   // Honeypot — bots that blindly fill all inputs will check this box
   if (body.botcheck) return true
@@ -51,6 +62,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
+  // Normalize once — this value becomes both the auto-reply recipient and the
+  // notification's Reply-To, so neither should carry stray whitespace
+  const senderEmail = email.trim()
+  if (!isValidEmail(senderEmail)) {
+    // `field` lets the form attach this to the right input instead of
+    // matching on the message text
+    return NextResponse.json(
+      { error: 'Enter a valid email address so we can reply.', field: 'email' },
+      { status: 400 }
+    )
+  }
+
   const to = process.env.CONTACT_FORM_TO
   if (!to) {
     console.error('[contact] CONTACT_FORM_TO env var is not set')
@@ -61,16 +84,23 @@ export async function POST(req: NextRequest) {
     // Notification to client — Reply-To is set to submitter so client can just hit Reply
     resend.emails.send({
       from: FROM,
-      replyTo: email,
+      replyTo: senderEmail,
       to,
       subject: `New Quote Request — ${name}`,
-      html: notificationHtml({ name, email, company, phone, facility_type, message }),
+      html: notificationHtml({
+        name,
+        email: senderEmail,
+        company,
+        phone,
+        facility_type,
+        message,
+      }),
     }),
     // Auto-reply to submitter — Reply-To routes back to client inbox
     resend.emails.send({
       from: FROM,
       replyTo: CLIENT_EMAIL,
-      to: email,
+      to: senderEmail,
       subject: 'We received your request — Sweep Property Plus',
       html: autoReplyHtml(name),
     }),
@@ -82,6 +112,17 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({ success: true })
+}
+
+// Submitted values are interpolated into an HTML email. Escape them first so a
+// crafted field can't inject markup or links into the client's inbox.
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
 }
 
 function notificationHtml({ name, email, company, phone, facility_type, message }: ContactBody) {
@@ -98,7 +139,7 @@ function notificationHtml({ name, email, company, phone, facility_type, message 
       ([label, value]) => `
       <tr>
         <td style="padding:10px 20px 10px 0;color:#6B7280;font-size:13px;white-space:nowrap;vertical-align:top;border-bottom:1px solid #e5e7eb;">${label}</td>
-        <td style="padding:10px 0;font-size:13px;font-weight:600;color:#1A1A1A;border-bottom:1px solid #e5e7eb;">${value}</td>
+        <td style="padding:10px 0;font-size:13px;font-weight:600;color:#1A1A1A;border-bottom:1px solid #e5e7eb;">${escapeHtml(value)}</td>
       </tr>`
     )
     .join('')
@@ -116,9 +157,9 @@ function notificationHtml({ name, email, company, phone, facility_type, message 
       <table style="width:100%;border-collapse:collapse;">${rows}</table>
       <div style="margin-top:20px;background:#F7F2EA;border-radius:6px;padding:16px 20px;">
         <p style="margin:0 0 8px;color:#6B7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Message</p>
-        <p style="margin:0;font-size:13px;line-height:1.7;color:#1A1A1A;">${message.replace(/\n/g, '<br>')}</p>
+        <p style="margin:0;font-size:13px;line-height:1.7;color:#1A1A1A;">${escapeHtml(message).replace(/\n/g, '<br>')}</p>
       </div>
-      <p style="margin-top:20px;margin-bottom:0;font-size:12px;color:#9ca3af;">Reply to this email to respond directly to ${name}.</p>
+      <p style="margin-top:20px;margin-bottom:0;font-size:12px;color:#9ca3af;">Reply to this email to respond directly to ${escapeHtml(name)}.</p>
     </div>
   </div>
 </body>
@@ -136,13 +177,13 @@ function autoReplyHtml(name: string) {
       <h1 style="margin:6px 0 0;color:#ffffff;font-size:20px;font-weight:700;">We received your request.</h1>
     </div>
     <div style="padding:28px;">
-      <p style="margin:0 0 16px;font-size:14px;line-height:1.7;color:#1A1A1A;">Hi ${name},</p>
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.7;color:#1A1A1A;">Hi ${escapeHtml(name)},</p>
       <p style="margin:0 0 16px;font-size:14px;line-height:1.7;color:#1A1A1A;">Thank you for reaching out. We've received your quote request and will be in touch shortly to discuss your space and how we can help.</p>
       <p style="margin:0 0 28px;font-size:14px;line-height:1.7;color:#1A1A1A;">In the meantime, feel free to reply to this email or reach us at <a href="tel:+17327028440" style="color:#337068;text-decoration:none;">(732) 702-8440</a>.</p>
       <p style="margin:0;font-size:14px;line-height:1.7;color:#1A1A1A;">— The Sweep Property Plus Team</p>
     </div>
     <div style="padding:16px 28px;background:#F7F2EA;border-top:1px solid #e5e7eb;">
-      <p style="margin:0;font-size:11px;color:#9ca3af;">Sweep Property Plus &middot; Union, NJ &middot; <a href="https://www.sweeproperty.com" style="color:#9ca3af;">sweeproperty.com</a></p>
+      <p style="margin:0;font-size:11px;color:#9ca3af;">Sweep Property Plus &middot; NJ &middot; <a href="https://www.sweeproperty.com" style="color:#9ca3af;">sweeproperty.com</a></p>
     </div>
   </div>
 </body>

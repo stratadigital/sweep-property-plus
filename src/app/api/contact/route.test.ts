@@ -180,4 +180,104 @@ describe('POST /api/contact', () => {
       expect(res.status).toBe(200)
     })
   })
+
+  describe('email validation', () => {
+    // type="email" on the input is client-side only — anything can POST here directly
+    it.each([
+      ['no @ sign', 'jane.acme.com'],
+      ['nothing before the @', '@acme.com'],
+      ['nothing after the @', 'jane@'],
+      ['no dot in the domain', 'jane@acme'],
+      ['a trailing dot', 'jane@acme.'],
+      ['consecutive dots in the domain', 'jane@acme..com'],
+      ['an internal space', 'jane doe@acme.com'],
+      ['a space in the domain', 'jane@acme corp.com'],
+      ['two @ signs', 'jane@@acme.com'],
+      ['a newline (header injection shape)', 'jane@acme.com\nBcc: evil@evil.test'],
+    ])('returns 400 when the email has %s', async (_, badEmail) => {
+      const res = await POST(makeRequest({ ...VALID_BODY, email: badEmail }))
+      expect(res.status).toBe(400)
+      expect(mockSend).not.toHaveBeenCalled()
+    })
+
+    it('returns 400 when the email exceeds 254 characters', async () => {
+      const tooLong = `${'a'.repeat(250)}@acme.com`
+      const res = await POST(makeRequest({ ...VALID_BODY, email: tooLong }))
+      expect(res.status).toBe(400)
+      expect(mockSend).not.toHaveBeenCalled()
+    })
+
+    it.each([
+      ['a plus tag', 'jane+quotes@acme.com'],
+      ['a subdomain', 'jane@mail.acme.co.uk'],
+      ['a hyphenated domain', 'jane@acme-corp.com'],
+      ['dots in the local part', 'jane.m.smith@acme.com'],
+    ])('accepts an address with %s', async (_, goodEmail) => {
+      const res = await POST(makeRequest({ ...VALID_BODY, email: goodEmail }))
+      expect(res.status).toBe(200)
+      expect(mockSend).toHaveBeenCalledTimes(2)
+    })
+
+    // The form keys off `field` to attach the message to the right input
+    it('names the offending field so the form can show the error inline', async () => {
+      const res = await POST(makeRequest({ ...VALID_BODY, email: 'not-an-email' }))
+      const json = await res.json()
+      expect(json.field).toBe('email')
+      expect(json.error).toBeTruthy()
+    })
+
+    it('does not set `field` on failures the user cannot fix', async () => {
+      delete process.env.CONTACT_FORM_TO
+      const res = await POST(makeRequest(VALID_BODY))
+      const json = await res.json()
+      expect(res.status).toBe(500)
+      expect(json.field).toBeUndefined()
+    })
+
+    it('trims surrounding whitespace before sending', async () => {
+      await POST(makeRequest({ ...VALID_BODY, email: '  jane@acme.com  ' }))
+      const [notification, autoReply] = mockSend.mock.calls
+      expect(notification[0].replyTo).toBe('jane@acme.com')
+      expect(autoReply[0].to).toBe('jane@acme.com')
+    })
+  })
+
+  describe('HTML escaping', () => {
+    // Submitted values are interpolated into email HTML. Unescaped, a crafted
+    // field injects arbitrary markup into the client's inbox.
+    const INJECTION = '<a href="https://evil.test">click</a>'
+
+    it.each([
+      ['name', 'name'],
+      ['company', 'company'],
+      ['phone', 'phone'],
+      ['facility_type', 'facility_type'],
+      ['message', 'message'],
+    ])('escapes markup submitted in %s', async (_, field) => {
+      await POST(makeRequest({ ...VALID_BODY, [field]: INJECTION }))
+      const [notification] = mockSend.mock.calls
+      expect(notification[0].html).not.toContain(INJECTION)
+      expect(notification[0].html).toContain('&lt;a href=&quot;https://evil.test&quot;&gt;')
+    })
+
+    it('escapes markup in the auto-reply greeting', async () => {
+      await POST(makeRequest({ ...VALID_BODY, name: INJECTION }))
+      const [, autoReply] = mockSend.mock.calls
+      expect(autoReply[0].html).not.toContain(INJECTION)
+      expect(autoReply[0].html).toContain('&lt;a href=')
+    })
+
+    it('escapes ampersands without double-encoding the result', async () => {
+      await POST(makeRequest({ ...VALID_BODY, company: 'Ellery & Sons' }))
+      const [notification] = mockSend.mock.calls
+      expect(notification[0].html).toContain('Ellery &amp; Sons')
+      expect(notification[0].html).not.toContain('&amp;amp;')
+    })
+
+    it('still renders newlines in the message as line breaks', async () => {
+      await POST(makeRequest({ ...VALID_BODY, message: 'First line\nSecond line' }))
+      const [notification] = mockSend.mock.calls
+      expect(notification[0].html).toContain('First line<br>Second line')
+    })
+  })
 })

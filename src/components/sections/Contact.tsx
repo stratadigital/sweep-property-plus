@@ -11,10 +11,13 @@ export default function Contact() {
   const [status, setStatus] = useState<Status>('idle')
   // Controlled so the empty state can render placeholder-gray like the inputs
   const [facilityType, setFacilityType] = useState('')
+  // Server-side validation message, shown against the field the API names
+  const [emailError, setEmailError] = useState<string | null>(null)
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setStatus('submitting')
+    setEmailError(null)
 
     const form = e.currentTarget
     const data = new FormData(form)
@@ -41,6 +44,12 @@ export default function Contact() {
         setStatus('success')
         form.reset()
         setFacilityType('')
+      } else if (json.field === 'email') {
+        // Field-level problem the user can fix — show it on the input and
+        // return to idle rather than raising the generic failure banner
+        setEmailError(json.error)
+        setStatus('idle')
+        form.querySelector<HTMLInputElement>('#email')?.focus()
       } else {
         setStatus('error')
       }
@@ -99,6 +108,17 @@ export default function Contact() {
                 <span className="text-teal-dark font-semibold">Phone:</span>{' '}
                 <a href="tel:+17327028440" className="hover:text-teal transition-colors">
                   (732) 702-8440
+                </a>
+              </p>
+              <p>
+                <span className="text-teal-dark font-semibold">Address:</span>{' '}
+                <a
+                  href="https://maps.google.com/?q=180+Summit+Ave+Unit+202,+Montvale,+NJ+07645"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-teal transition-colors"
+                >
+                  180 Summit Ave, Unit 202, Montvale, NJ 07645
                 </a>
               </p>
             </div>
@@ -179,8 +199,20 @@ export default function Contact() {
                       type="email"
                       required
                       placeholder="you@company.com"
-                      className="border-teal/20 text-neutral-dark placeholder:text-neutral-mid focus:border-teal focus:ring-teal/15 w-full rounded border bg-white px-4 py-3 text-sm transition-colors focus:ring-2 focus:outline-none"
+                      aria-invalid={emailError ? true : undefined}
+                      aria-describedby={emailError ? 'email-error' : undefined}
+                      onChange={() => emailError && setEmailError(null)}
+                      className={`text-neutral-dark placeholder:text-neutral-mid w-full rounded border bg-white px-4 py-3 text-sm transition-colors focus:ring-2 focus:outline-none ${
+                        emailError
+                          ? 'border-error focus:border-error focus:ring-error/15'
+                          : 'border-teal/20 focus:border-teal focus:ring-teal/15'
+                      }`}
                     />
+                    {emailError && (
+                      <p id="email-error" role="alert" className="text-error mt-1.5 text-sm">
+                        {emailError}
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -246,7 +278,10 @@ export default function Contact() {
                   {status === 'error' && (
                     <p className="text-error text-sm font-medium">
                       Something went wrong. Please try again or{' '}
-                      <a href="mailto:info@sweeproperty.com" className="underline underline-offset-2">
+                      <a
+                        href="mailto:info@sweeproperty.com"
+                        className="underline underline-offset-2"
+                      >
                         email us directly
                       </a>
                       .

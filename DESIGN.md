@@ -2,7 +2,7 @@
 
 ## Brand
 
-**Client**: Sweep Property Plus — commercial cleaning company, Union, NJ.
+**Client**: Sweep Property Plus — commercial cleaning company, NJ.
 **Positioning**: Professional, modern, trustworthy. B2B audience (building managers, facilities directors). Not a consumer brand — no playful or decorative energy.
 
 ---
