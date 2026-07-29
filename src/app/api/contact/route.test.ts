@@ -180,4 +180,43 @@ describe('POST /api/contact', () => {
       expect(res.status).toBe(200)
     })
   })
+
+  describe('HTML escaping', () => {
+    // Submitted values are interpolated into email HTML. Unescaped, a crafted
+    // field injects arbitrary markup into the client's inbox.
+    const INJECTION = '<a href="https://evil.test">click</a>'
+
+    it.each([
+      ['name', 'name'],
+      ['company', 'company'],
+      ['phone', 'phone'],
+      ['facility_type', 'facility_type'],
+      ['message', 'message'],
+    ])('escapes markup submitted in %s', async (_, field) => {
+      await POST(makeRequest({ ...VALID_BODY, [field]: INJECTION }))
+      const [notification] = mockSend.mock.calls
+      expect(notification[0].html).not.toContain(INJECTION)
+      expect(notification[0].html).toContain('&lt;a href=&quot;https://evil.test&quot;&gt;')
+    })
+
+    it('escapes markup in the auto-reply greeting', async () => {
+      await POST(makeRequest({ ...VALID_BODY, name: INJECTION }))
+      const [, autoReply] = mockSend.mock.calls
+      expect(autoReply[0].html).not.toContain(INJECTION)
+      expect(autoReply[0].html).toContain('&lt;a href=')
+    })
+
+    it('escapes ampersands without double-encoding the result', async () => {
+      await POST(makeRequest({ ...VALID_BODY, company: 'Ellery & Sons' }))
+      const [notification] = mockSend.mock.calls
+      expect(notification[0].html).toContain('Ellery &amp; Sons')
+      expect(notification[0].html).not.toContain('&amp;amp;')
+    })
+
+    it('still renders newlines in the message as line breaks', async () => {
+      await POST(makeRequest({ ...VALID_BODY, message: 'First line\nSecond line' }))
+      const [notification] = mockSend.mock.calls
+      expect(notification[0].html).toContain('First line<br>Second line')
+    })
+  })
 })

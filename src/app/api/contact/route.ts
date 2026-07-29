@@ -84,6 +84,17 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ success: true })
 }
 
+// Submitted values are interpolated into an HTML email. Escape them first so a
+// crafted field can't inject markup or links into the client's inbox.
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
 function notificationHtml({ name, email, company, phone, facility_type, message }: ContactBody) {
   const fields: [string, string][] = [
     ['Name', name],
@@ -98,7 +109,7 @@ function notificationHtml({ name, email, company, phone, facility_type, message 
       ([label, value]) => `
       <tr>
         <td style="padding:10px 20px 10px 0;color:#6B7280;font-size:13px;white-space:nowrap;vertical-align:top;border-bottom:1px solid #e5e7eb;">${label}</td>
-        <td style="padding:10px 0;font-size:13px;font-weight:600;color:#1A1A1A;border-bottom:1px solid #e5e7eb;">${value}</td>
+        <td style="padding:10px 0;font-size:13px;font-weight:600;color:#1A1A1A;border-bottom:1px solid #e5e7eb;">${escapeHtml(value)}</td>
       </tr>`
     )
     .join('')
@@ -116,9 +127,9 @@ function notificationHtml({ name, email, company, phone, facility_type, message 
       <table style="width:100%;border-collapse:collapse;">${rows}</table>
       <div style="margin-top:20px;background:#F7F2EA;border-radius:6px;padding:16px 20px;">
         <p style="margin:0 0 8px;color:#6B7280;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Message</p>
-        <p style="margin:0;font-size:13px;line-height:1.7;color:#1A1A1A;">${message.replace(/\n/g, '<br>')}</p>
+        <p style="margin:0;font-size:13px;line-height:1.7;color:#1A1A1A;">${escapeHtml(message).replace(/\n/g, '<br>')}</p>
       </div>
-      <p style="margin-top:20px;margin-bottom:0;font-size:12px;color:#9ca3af;">Reply to this email to respond directly to ${name}.</p>
+      <p style="margin-top:20px;margin-bottom:0;font-size:12px;color:#9ca3af;">Reply to this email to respond directly to ${escapeHtml(name)}.</p>
     </div>
   </div>
 </body>
@@ -136,7 +147,7 @@ function autoReplyHtml(name: string) {
       <h1 style="margin:6px 0 0;color:#ffffff;font-size:20px;font-weight:700;">We received your request.</h1>
     </div>
     <div style="padding:28px;">
-      <p style="margin:0 0 16px;font-size:14px;line-height:1.7;color:#1A1A1A;">Hi ${name},</p>
+      <p style="margin:0 0 16px;font-size:14px;line-height:1.7;color:#1A1A1A;">Hi ${escapeHtml(name)},</p>
       <p style="margin:0 0 16px;font-size:14px;line-height:1.7;color:#1A1A1A;">Thank you for reaching out. We've received your quote request and will be in touch shortly to discuss your space and how we can help.</p>
       <p style="margin:0 0 28px;font-size:14px;line-height:1.7;color:#1A1A1A;">In the meantime, feel free to reply to this email or reach us at <a href="tel:+17327028440" style="color:#337068;text-decoration:none;">(732) 702-8440</a>.</p>
       <p style="margin:0;font-size:14px;line-height:1.7;color:#1A1A1A;">— The Sweep Property Plus Team</p>
