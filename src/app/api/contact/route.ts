@@ -16,6 +16,17 @@ interface ContactBody {
   botcheck?: boolean
 }
 
+// The browser's type="email" is client-side only and trivially bypassed. This
+// keeps malformed addresses from reaching Resend, where they'd fail at send time
+// and surface to the user as a generic 500. Deliberately permissive — the goal is
+// to reject obvious junk, not to adjudicate RFC 5322.
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/
+
+// 254 is the maximum length of a forward path in RFC 5321
+function isValidEmail(value: string): boolean {
+  return value.length <= 254 && EMAIL_PATTERN.test(value)
+}
+
 function isLikelyBot(req: NextRequest, body: ContactBody): boolean {
   // Honeypot — bots that blindly fill all inputs will check this box
   if (body.botcheck) return true
@@ -51,6 +62,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
+  // Normalize once — this value becomes both the auto-reply recipient and the
+  // notification's Reply-To, so neither should carry stray whitespace
+  const senderEmail = email.trim()
+  if (!isValidEmail(senderEmail)) {
+    return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
+  }
+
   const to = process.env.CONTACT_FORM_TO
   if (!to) {
     console.error('[contact] CONTACT_FORM_TO env var is not set')
@@ -61,16 +79,23 @@ export async function POST(req: NextRequest) {
     // Notification to client — Reply-To is set to submitter so client can just hit Reply
     resend.emails.send({
       from: FROM,
-      replyTo: email,
+      replyTo: senderEmail,
       to,
       subject: `New Quote Request — ${name}`,
-      html: notificationHtml({ name, email, company, phone, facility_type, message }),
+      html: notificationHtml({
+        name,
+        email: senderEmail,
+        company,
+        phone,
+        facility_type,
+        message,
+      }),
     }),
     // Auto-reply to submitter — Reply-To routes back to client inbox
     resend.emails.send({
       from: FROM,
       replyTo: CLIENT_EMAIL,
-      to: email,
+      to: senderEmail,
       subject: 'We received your request — Sweep Property Plus',
       html: autoReplyHtml(name),
     }),
