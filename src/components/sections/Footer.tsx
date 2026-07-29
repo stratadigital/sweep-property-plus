@@ -30,6 +30,18 @@ export default function Footer() {
               Commercial cleaning services for office buildings, schools, and large commercial
               facilities.
             </p>
+            <address className="mt-4 text-sm leading-7 text-white/60 not-italic">
+              <a
+                href="https://maps.google.com/?q=180+Summit+Ave,+Montvale,+NJ+07645"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-white"
+              >
+                180 Summit Ave
+                <br />
+                Montvale, NJ 07645
+              </a>
+            </address>
           </div>
 
           {/* Nav links — mirror the header */}

@@ -142,7 +142,7 @@ function autoReplyHtml(name: string) {
       <p style="margin:0;font-size:14px;line-height:1.7;color:#1A1A1A;">— The Sweep Property Plus Team</p>
     </div>
     <div style="padding:16px 28px;background:#F7F2EA;border-top:1px solid #e5e7eb;">
-      <p style="margin:0;font-size:11px;color:#9ca3af;">Sweep Property Plus &middot; Union, NJ &middot; <a href="https://www.sweeproperty.com" style="color:#9ca3af;">sweeproperty.com</a></p>
+      <p style="margin:0;font-size:11px;color:#9ca3af;">Sweep Property Plus &middot; NJ &middot; <a href="https://www.sweeproperty.com" style="color:#9ca3af;">sweeproperty.com</a></p>
     </div>
   </div>
 </body>
