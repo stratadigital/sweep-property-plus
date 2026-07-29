@@ -113,12 +113,12 @@ export default function Contact() {
               <p>
                 <span className="text-teal-dark font-semibold">Address:</span>{' '}
                 <a
-                  href="https://maps.google.com/?q=180+Summit+Ave,+Montvale,+NJ+07645"
+                  href="https://maps.google.com/?q=180+Summit+Ave+Unit+202,+Montvale,+NJ+07645"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-teal transition-colors"
                 >
-                  180 Summit Ave, Montvale, NJ 07645
+                  180 Summit Ave, Unit 202, Montvale, NJ 07645
                 </a>
               </p>
             </div>

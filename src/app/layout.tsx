@@ -49,7 +49,7 @@ const businessJsonLd = {
   telephone: '+1-732-702-8440',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: '180 Summit Ave',
+    streetAddress: '180 Summit Ave, Unit 202',
     addressLocality: 'Montvale',
     addressRegion: 'NJ',
     postalCode: '07645',
