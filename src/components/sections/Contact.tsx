@@ -11,10 +11,13 @@ export default function Contact() {
   const [status, setStatus] = useState<Status>('idle')
   // Controlled so the empty state can render placeholder-gray like the inputs
   const [facilityType, setFacilityType] = useState('')
+  // Server-side validation message, shown against the field the API names
+  const [emailError, setEmailError] = useState<string | null>(null)
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setStatus('submitting')
+    setEmailError(null)
 
     const form = e.currentTarget
     const data = new FormData(form)
@@ -41,6 +44,12 @@ export default function Contact() {
         setStatus('success')
         form.reset()
         setFacilityType('')
+      } else if (json.field === 'email') {
+        // Field-level problem the user can fix — show it on the input and
+        // return to idle rather than raising the generic failure banner
+        setEmailError(json.error)
+        setStatus('idle')
+        form.querySelector<HTMLInputElement>('#email')?.focus()
       } else {
         setStatus('error')
       }
@@ -190,8 +199,20 @@ export default function Contact() {
                       type="email"
                       required
                       placeholder="you@company.com"
-                      className="border-teal/20 text-neutral-dark placeholder:text-neutral-mid focus:border-teal focus:ring-teal/15 w-full rounded border bg-white px-4 py-3 text-sm transition-colors focus:ring-2 focus:outline-none"
+                      aria-invalid={emailError ? true : undefined}
+                      aria-describedby={emailError ? 'email-error' : undefined}
+                      onChange={() => emailError && setEmailError(null)}
+                      className={`text-neutral-dark placeholder:text-neutral-mid w-full rounded border bg-white px-4 py-3 text-sm transition-colors focus:ring-2 focus:outline-none ${
+                        emailError
+                          ? 'border-error focus:border-error focus:ring-error/15'
+                          : 'border-teal/20 focus:border-teal focus:ring-teal/15'
+                      }`}
                     />
+                    {emailError && (
+                      <p id="email-error" role="alert" className="text-error mt-1.5 text-sm">
+                        {emailError}
+                      </p>
+                    )}
                   </div>
 
                   <div>

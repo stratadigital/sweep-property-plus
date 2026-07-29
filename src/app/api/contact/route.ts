@@ -66,7 +66,12 @@ export async function POST(req: NextRequest) {
   // notification's Reply-To, so neither should carry stray whitespace
   const senderEmail = email.trim()
   if (!isValidEmail(senderEmail)) {
-    return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
+    // `field` lets the form attach this to the right input instead of
+    // matching on the message text
+    return NextResponse.json(
+      { error: 'Enter a valid email address so we can reply.', field: 'email' },
+      { status: 400 }
+    )
   }
 
   const to = process.env.CONTACT_FORM_TO

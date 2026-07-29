@@ -218,6 +218,22 @@ describe('POST /api/contact', () => {
       expect(mockSend).toHaveBeenCalledTimes(2)
     })
 
+    // The form keys off `field` to attach the message to the right input
+    it('names the offending field so the form can show the error inline', async () => {
+      const res = await POST(makeRequest({ ...VALID_BODY, email: 'not-an-email' }))
+      const json = await res.json()
+      expect(json.field).toBe('email')
+      expect(json.error).toBeTruthy()
+    })
+
+    it('does not set `field` on failures the user cannot fix', async () => {
+      delete process.env.CONTACT_FORM_TO
+      const res = await POST(makeRequest(VALID_BODY))
+      const json = await res.json()
+      expect(res.status).toBe(500)
+      expect(json.field).toBeUndefined()
+    })
+
     it('trims surrounding whitespace before sending', async () => {
       await POST(makeRequest({ ...VALID_BODY, email: '  jane@acme.com  ' }))
       const [notification, autoReply] = mockSend.mock.calls
